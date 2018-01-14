@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test</title>
+	<script type="text/javascript" src="noders-gl.js"></script>
+</head>
+<body>
+<canvas id="canvas" width="512" height="512"></canvas>
+<script type="text/javascript">
+	const renderer = new NGL.Renderer({ canvas: document.getElementById('canvas') });
+	const simplePipeline = new NGL.Pipeline({
+		renderer: renderer,
+		vertexSize: Float32Array.BYTES_PER_ELEMENT * 4,
+		vertShader: 
+		`
+		precision mediump float;
+
+		uniform float uTime;
+
+		attribute vec2 inPosition;
+		attribute vec2 inTexCoord;
+
+		varying vec2 outTexCoord;
+
+		void main() {
+			vec2 position;
+			float s = sin(uTime);
+			float c = cos(uTime);
+			position.x = inPosition.x * s + inPosition.y * c;
+			position.y = inPosition.x * c - inPosition.y * s;
+			gl_Position = vec4(position, 0.0, 1.0);
+
+			outTexCoord = inTexCoord;
+		}
+
+		`,
+		fragShader:
+		`
+		precision mediump float;
+
+		uniform float uTime;
+		uniform sampler2D uMainSampler;
+
+		varying vec2 outTexCoord;
+
+		void main () { gl_FragColor = texture2D(uMainSampler, outTexCoord); }
+		`,
+		attributes:  {
+			'inPosition': {
+				size: 2,
+				type: NGL.AttribType.FLOAT,
+				offset: 0
+			},
+			'inTexCoord': {
+				size: 2,
+				type: NGL.AttribType.FLOAT,
+				offset: 8
+			}
+		}
+	});
+	const vertexBuffer = new NGL.VertexBuffer({
+		renderer: renderer,
+		data: new Float32Array([
+			-0.5, +0.5, +0.0, +0.0,
+			-0.5, -0.5, +0.0, +1.0,
+			+0.5, -0.5, +1.0, +1.0,
+
+			-0.5, +0.5, +0.0, +0.0,
+			+0.5, -0.5, +1.0, +1.0,
+			+0.5, +0.5, +1.0, +0.0
+		])
+	});
+	const testTexture = new NGL.Texture2D({
+		renderer: renderer,
+		source: new Uint8Array([
+			0xff, 0x00, 0x00, 0xff,
+			0x00, 0xff, 0x00, 0xff,
+			0x00, 0x00, 0xff, 0xff,
+			0xff, 0xff, 0x00, 0xff
+		]),
+		width: 2,
+		height: 2,
+		filter: NGL.TextureFilter.LINEAR
+	});
+
+	const testTextureRed = new NGL.Texture2D({
+		renderer: renderer,
+		source: new Uint8Array([
+			0xff, 0x00, 0x00, 0xff,
+			0xff, 0x00, 0x00, 0xff,
+			0xff, 0x00, 0x00, 0xff,
+			0xff, 0x00, 0x00, 0xff
+		]),
+		width: 2,
+		height: 2,
+		filter: NGL.TextureFilter.NEAREST
+	});
+	let time = 0.0;
+
+	renderer.enableOutputState(NGL.OutputState.BLEND_STATE);
+	renderer.setBlendMode(NGL.BlendMode.SCREEN);
+
+	requestAnimationFrame(function loop() {
+		renderer.beginPass(vertexBuffer, simplePipeline);
+		{
+			renderer.clear(NGL.Clear.ALL);
+
+			time += 0.01;
+			simplePipeline.setUniform('uTime', NGL.UniformType.FLOAT_1, time)
+			renderer.setTexture2D(testTexture);
+			renderer.draw(0, 6);
+	
+			time += 0.6;
+			simplePipeline.setUniform('uTime', NGL.UniformType.FLOAT_1, time)
+			renderer.setTexture2D(testTextureRed);
+			renderer.draw(0, 6);
+			time -= 0.6;
+
+		}
+		renderer.endPass();
+
+		requestAnimationFrame(loop);
+	});
+</script>
+</body>
+</html>
