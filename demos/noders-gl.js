@@ -2,7 +2,7 @@
 
     'use strict';
     const NGL = {
-        Clear: {
+        ClearTarget: {
             ALL:            WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT | WebGLRenderingContext.STENCIL_BUFFER_BIT,
             COLOR:          WebGLRenderingContext.COLOR_BUFFER_BIT,
             DEPTH:          WebGLRenderingContext.DEPTH_BUFFER_BIT,
@@ -358,7 +358,7 @@
             return this;
         }
 
-        clear(clearBits)
+        clearTarget(clearBits)
         {
             this.gl.clear(clearBits);
             return this;
@@ -401,7 +401,7 @@
             const gl = this.gl;
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             this.lockedPass = false;
-            
+
             return this;
         }
 

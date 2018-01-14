@@ -103,7 +103,7 @@
 	requestAnimationFrame(function loop() {
 		renderer.beginPass(vertexBuffer, simplePipeline);
 		{
-			renderer.clear(NGL.Clear.ALL);
+			renderer.clearTarget(NGL.ClearTarget.ALL);
 
 			time += 0.01;
 			simplePipeline.setUniform('uTime', NGL.UniformType.FLOAT_1, time)
