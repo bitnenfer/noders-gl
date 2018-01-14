@@ -235,10 +235,12 @@
             this.canvas = config.canvas;
             this.gl = canvas.getContext('webgl', { alpha: !!config.alpha, depth: !!config.depth, stencil: !!config.stencil, antialias: !!config.antialias });
             this.currentTopology = WebGLRenderingContext.TRIANGLES;
-            this.texture2DList = [];
+            this.textures2D = [];
+            this.lastTextures2D = [];
             this.lastPipeline = null;
             this.lastVertexBuffer = null;
             this.lockedPass = false;
+            this.textureDirty = false;
         }
 
         enableRaserizerState (state)
@@ -330,7 +332,9 @@
 
         setTexture2D(texture2D, textureUnit)
         {
-            this.texture2DList[textureUnit ? textureUnit : 0] = texture2D;
+            textureUnit = textureUnit || 0;
+            this.textureDirty = (this.textures2D[textureUnit] !== texture2D);
+            this.textures2D[textureUnit] = texture2D;
             return this;
         }
 
@@ -409,16 +413,25 @@
         {
             const gl = this.gl;
             const topology = this.currentTopology;
-            const texture2DList = this.texture2DList;
-
-            for (let index = 0; index < texture2DList.length; ++index)
+            
+            if (this.textureDirty)
             {
-                if (texture2DList[index])
+                const textures2D = this.textures2D;
+                const lastTextures2D = this.lastTextures2D;
+                const length = Math.min(textures2D.length, 16);
+    
+                for (let index = 0; index < textures2D.length; ++index)
                 {
-                    const texture = texture2DList[index];
-                    gl.activeTexture(gl.TEXTURE0 + index);
-                    gl.bindTexture(gl.TEXTURE_2D, texture.texture);
+                    if (textures2D[index] !== lastTextures2D[index])
+                    {
+                        const texture = textures2D[index];
+                        gl.activeTexture(gl.TEXTURE0 + index);
+                        gl.bindTexture(gl.TEXTURE_2D, texture.texture);
+                        lastTextures2D[index] = texture;
+                    }
                 }
+
+                this.textureDirty = false;
             }
 
             gl.drawArrays(topology, first, vertexCount);
