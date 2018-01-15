@@ -4,8 +4,8 @@ require(['vs/editor/editor.main'], function() {
     
     const vertTab = document.getElementById('vert-tab');
     const fragTab = document.getElementById('frag-tab');
-    const vertModel = monaco.editor.createModel(localStorage.getItem('vs') || 'void main() { gl_Position = vec4(0.0); }', 'cpp');
-    const fragModel = monaco.editor.createModel(localStorage.getItem('fs') || 'void main() { gl_FragColor = vec4(1.0); }', 'cpp');
+    const vertModel = monaco.editor.createModel(localStorage.getItem('vs') || 'void main()\n{\n    gl_Position = vec4(0.0);\n}\n', 'cpp');
+    const fragModel = monaco.editor.createModel(localStorage.getItem('fs') || 'void main()\n{\n    gl_FragColor = vec4(1.0);\n}\n', 'cpp');
 
     const editor = monaco.editor.create(document.getElementById('shader-editor'), { theme: 'vs-dark', model: vertModel });
 
