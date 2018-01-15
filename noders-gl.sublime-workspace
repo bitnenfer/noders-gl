@@ -1,0 +1,1038 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"trna",
+				"translateY"
+			],
+			[
+				"tra",
+				"translateX"
+			],
+			[
+				"scro",
+				"scrollX"
+			],
+			[
+				"ver",
+				"vertexCount"
+			],
+			[
+				"tex",
+				"texture"
+			],
+			[
+				"alb",
+				"albedoPass"
+			],
+			[
+				"flip",
+				"flipX"
+			],
+			[
+				"game",
+				"gameObject"
+			],
+			[
+				"_flip",
+				"_flipX"
+			],
+			[
+				"_fl",
+				"_flipY"
+			],
+			[
+				"_",
+				"_flipX"
+			],
+			[
+				"weig",
+				"weightFunction"
+			],
+			[
+				"ro",
+				"rotation"
+			],
+			[
+				"baseSp",
+				"baseSpriteShader"
+			],
+			[
+				"base",
+				"baseSpriteShader"
+			],
+			[
+				"gl_",
+				"gl_FragColor"
+			],
+			[
+				"gl_FraCo",
+				"gl_FragCoord"
+			],
+			[
+				"cla",
+				"clearColorBuffer"
+			],
+			[
+				"blo",
+				"blobPass"
+			],
+			[
+				"blurP",
+				"blurPassH"
+			],
+			[
+				"blu",
+				"blurPass"
+			],
+			[
+				"blurPas",
+				"blurPassV"
+			],
+			[
+				"blur",
+				"blurPassH"
+			],
+			[
+				"g",
+				"gfx"
+			],
+			[
+				"bl",
+				"blurPass"
+			],
+			[
+				"var",
+				"varying"
+			],
+			[
+				"image",
+				"image0"
+			],
+			[
+				"mask",
+				"mask_color"
+			],
+			[
+				"matri",
+				"matrix1"
+			],
+			[
+				"matr",
+				"matrix0"
+			],
+			[
+				"scr",
+				"scrollY"
+			],
+			[
+				"mat",
+				"matrix1"
+			],
+			[
+				"point",
+				"pointIn"
+			],
+			[
+				"came",
+				"camera"
+			],
+			[
+				"poin",
+				"pointOut"
+			],
+			[
+				"ca",
+				"cameraPoint"
+			],
+			[
+				"camera",
+				"cameraPoint"
+			],
+			[
+				"sco",
+				"scrollX"
+			],
+			[
+				"lineW",
+				"lineWidthHalf"
+			],
+			[
+				"p",
+				"particles"
+			],
+			[
+				"render",
+				"renderer"
+			],
+			[
+				"u_cam",
+				"u_camera_origin"
+			],
+			[
+				"shap",
+				"shapes"
+			],
+			[
+				"sha",
+				"shapeIndex"
+			],
+			[
+				"emitS",
+				"emittingShape"
+			],
+			[
+				"emit",
+				"emitter"
+			],
+			[
+				"eas",
+				"easeName"
+			],
+			[
+				"whi",
+				"whiteSmoke"
+			],
+			[
+				"emi",
+				"emitter0"
+			],
+			[
+				"call",
+				"callback"
+			],
+			[
+				"norm",
+				"normLifeStep"
+			],
+			[
+				"max",
+				"maxScale"
+			],
+			[
+				"no",
+				"normLifeStep"
+			],
+			[
+				"alp",
+				"alphaLerp"
+			],
+			[
+				"li",
+				"life"
+			],
+			[
+				"life",
+				"lifeStep"
+			],
+			[
+				"lif",
+				"lifeStep"
+			],
+			[
+				"par",
+				"particle"
+			],
+			[
+				"gr",
+				"gravityY"
+			],
+			[
+				"maxSp",
+				"maxSpeedX"
+			],
+			[
+				"minS",
+				"minSpeedX"
+			],
+			[
+				"B",
+				"Between"
+			],
+			[
+				"part",
+				"particle"
+			],
+			[
+				"parti",
+				"particle"
+			],
+			[
+				"ded",
+				"deadQueue"
+			],
+			[
+				"bat",
+				"batchCount"
+			],
+			[
+				"BAT",
+				"batchesCount"
+			],
+			[
+				"Cons",
+				"CONST"
+			],
+			[
+				"Parti",
+				"ParticleShader"
+			],
+			[
+				"alive",
+				"getAliveCount"
+			],
+			[
+				"tilema",
+				"tilemapRenderer"
+			],
+			[
+				"canvas",
+				"canvasTexture"
+			],
+			[
+				"onCon",
+				"onContextRestoredCallbacks"
+			],
+			[
+				"clal",
+				"callbacks"
+			],
+			[
+				"onC",
+				"onContextRestoredCallbacks"
+			],
+			[
+				"inde",
+				"indexOf"
+			],
+			[
+				"on",
+				"onContextLostCallbacks"
+			],
+			[
+				"prto",
+				"properties"
+			],
+			[
+				"tileWi",
+				"tileWidthBorder"
+			],
+			[
+				"tile",
+				"tilemap"
+			],
+			[
+				"sca",
+				"scaleY"
+			],
+			[
+				"scae",
+				"scaleX"
+			],
+			[
+				"ima",
+				"image0"
+			],
+			[
+				"ligh",
+				"lights"
+			],
+			[
+				"lig",
+				"lightLayer"
+			],
+			[
+				"uni",
+				"uniform3f"
+			],
+			[
+				"am",
+				"ambientLightColorR"
+			],
+			[
+				"amb",
+				"ambientLightColorLoc"
+			],
+			[
+				"uRe",
+				"uResolutionLoc"
+			],
+			[
+				"cam",
+				"camera"
+			],
+			[
+				"scrol",
+				"scrollFactorX"
+			],
+			[
+				"gBu",
+				"gBufferColorTex"
+			],
+			[
+				"gbuf",
+				"gBufferColorTex"
+			],
+			[
+				"gbu",
+				"gBufferFbo"
+			],
+			[
+				"bind",
+				"bindAttribLocation"
+			],
+			[
+				"lightP",
+				"lightPassVBO"
+			],
+			[
+				"vert",
+				"vertexPosition"
+			],
+			[
+				"spri",
+				"spriteColor"
+			],
+			[
+				"exte",
+				"extensionList"
+			],
+			[
+				"ex",
+				"extensionStorage"
+			],
+			[
+				"z",
+				"zoom"
+			],
+			[
+				"color",
+				"colorIdx"
+			],
+			[
+				"uMNO",
+				"uNormTextureLoc"
+			],
+			[
+				"sp",
+				"spriteNormalPair"
+			],
+			[
+				"curre",
+				"currentTexture"
+			],
+			[
+				"ambi",
+				"ambientLightColorB"
+			],
+			[
+				"ami",
+				"ambientLightColorR"
+			],
+			[
+				"light",
+				"lightsLocations"
+			],
+			[
+				"spr",
+				"spritePool"
+			],
+			[
+				"pre",
+				"prevHeight"
+			],
+			[
+				"rin",
+				"rainbowWave"
+			],
+			[
+				"rain",
+				"rainbowColorOffset"
+			],
+			[
+				"raw",
+				"rainbowColorIdx"
+			],
+			[
+				"verte",
+				"vertexColor"
+			],
+			[
+				"padi",
+				"padding-right"
+			],
+			[
+				"paddin",
+				"padding-left"
+			],
+			[
+				"rg",
+				"rgba()"
+			],
+			[
+				"rbg",
+				"rgba()"
+			],
+			[
+				"back",
+				"background-image"
+			],
+			[
+				"obj",
+				"object"
+			],
+			[
+				"ob",
+				"objectH"
+			],
+			[
+				"camer",
+				"cameras"
+			],
+			[
+				"obje",
+				"objectW"
+			],
+			[
+				"scal",
+				"scaleX"
+			],
+			[
+				"det",
+				"determinant"
+			],
+			[
+				"scroll",
+				"scrollFactorX"
+			],
+			[
+				"_temp",
+				"_tempMatrix"
+			],
+			[
+				"d",
+				"displayOriginX"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "demos/test.html",
+			"settings":
+			{
+				"buffer_size": 3063,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "demos/sdf.html",
+			"settings":
+			{
+				"buffer_size": 1687,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/xampp/htdocs/js13kgames/code/shaders/entry.glsl",
+			"settings":
+			{
+				"buffer_size": 2132,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "lib/orbital-camera.js",
+			"settings":
+			{
+				"buffer_size": 4403,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "lib/noders-gl.js",
+			"settings":
+			{
+				"buffer_size": 20549,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 104.0,
+		"last_filter": "sublimelintersett",
+		"selected_items":
+		[
+			[
+				"sublimelintersett",
+				"Preferences: SublimeLinter Settings – Default"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"instlal",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"installp",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 416.0
+	},
+	"console":
+	{
+		"height": 231.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/xampp/htdocs/noders-gl",
+		"/C/xampp/htdocs/noders-gl/demos",
+		"/C/xampp/htdocs/noders-gl/lib"
+	],
+	"file_history":
+	[
+		"/C/xampp/htdocs/noders-gl/lib/gl-matrix-min.js",
+		"/C/xampp/htdocs/noders-gl/lib/gl-matrix.js",
+		"/C/xampp/htdocs/noders-gl/demos/noders-gl.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/renderpass/RenderPassCreator.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/canvas/CanvasRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/spritebatch/SpriteBatch.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/render pass/Test.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/renderpass/RenderPass.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/WebGLRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/textures/TextureSource.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/resources/Shader.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/renderpass/RenderPassWebGLRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/components/Flip.js",
+		"/C/Users/felip/Desktop/worklog-dec2017",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/graphics3d/Graphics3D.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/graphics3d/Graphics3DCreator.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/graphics3d/Graphics3DFactory.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/graphics3d/Graphics3DRender.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/graphics3d/Graphics3DWebGLRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/graphics3d/GraphicsCanvasRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/graphics3d",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/graphics/GraphicsWebGLRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/graphics/Graphics.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/graphics/fill rect.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/shapebatch/ShapeBatch.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/TexturedAndNormalizedTintedShader.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/render pass/Glow Soft.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/components/RenderTarget.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/components/Shader.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/components/index.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/render pass/Glow.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/tint/atlas frame tint.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/images/image rotation.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/render pass/trail effect.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/effect layer/background-effect.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/renderpass/RenderPassFactory.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/effectlayer/EffectLayer.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/UntexturedAndNormalizedTintedShader.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/sprite/SpriteWebGLRenderer.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/render pass/Render Pass Sample.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/images/blend test.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/graphics/star shape.js",
+		"/C/xampp/htdocs/blend_compare/index.html",
+		"/C/xampp/htdocs/phaser3-examples/public/src/input/keyboard/keydown.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/light layer/Example.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/ResourceManager.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/resources/Texture.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/LightFragmentShader.js",
+		"/C/xampp/htdocs/pixi.js/example/index.html",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/TexturedAndAlphaShader.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/TexturedShader.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/TexturedTwirlShader.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/TilemapShader.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/UntexturedAndTintedShader.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/UntexturedPlasmaShader.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/GBufferShader.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/MaskShader.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/ParticleShader.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/shaders/Phong2DShaderDeferred.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/lightlayer/Const.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/camera/3D camera/blend cube.js",
+		"/C/xampp/htdocs/pixi.js/bin/pixi.js",
+		"/C/xampp/htdocs/phaser/v3/src/loader/filetypes/ImageFile.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/BlendModes.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/blitter/blitter alpha.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/blitterbatch/BlitterBatch.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/camera/world camera.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask Text.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask Text Masking Text.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask Text2.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/components/TransformMatrix.js",
+		"/C/xampp/htdocs/phaser/v3/src/camera/2d/inc/PreRender.js",
+		"/C/xampp/htdocs/phaser/v3/src/camera/2d/Camera.js",
+		"/C/xampp/htdocs/phaser/v3/src/camera/2d/inc/WorldToCamera.js",
+		"/C/xampp/htdocs/phaser/v3/src/camera/2d/inc/CameraToWorld.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/camera/camera-world-to-camera.js",
+		"/C/xampp/htdocs/phaser/v3/src/input/global/inc/HitTest.js",
+		"/C/xampp/htdocs/phaser/v3/webpack.config.js",
+		"/C/xampp/htdocs/phaser3-examples/build.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/camera/camera-screen-to-camera.js",
+		"/C/xampp/htdocs/phaser/v3/src/camera/2d/inc/ScreenToCamera.js",
+		"/C/xampp/htdocs/phaser/v3/src/camera/2d/inc/CameraToScreen.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/camera/screen to world test.js",
+		"/C/Users/felip/Desktop/index.html",
+		"/C/xampp/htdocs/mask-demo/index.html",
+		"/C/Users/felip/Desktop/rut/index.html",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/text/static/align text.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask BitmapFont2.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask Example.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask BitmapFont.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/graphics/GraphicsCanvasRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/display/mask/GeometryMask.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/GeometryMask Example.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/GeometryMask Example0.js",
+		"/C/xampp/htdocs/phaser/v3/src/display/mask/BitmapMask.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/effect layer/custom-tint.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/render pass/Plasma Mask.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/particlerenderer/ParticleRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/maskrenderer/MaskRenderer.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask Masked EffectLayer.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask RenderPass.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask Masked Particles.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask Particles.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/effectrenderer/EffectRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/quadbatch/QuadBatch.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/tilebatch/TileBatch.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/effectlayer/EffectLayerWebGLRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/tilemaprenderer/TilemapRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/particles/ParticleEmitterManager.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/particles/ParticleEmitter.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask Example 2.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/BitmapMask Alpha.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/spotlight.js",
+		"/C/xampp/htdocs/mask-demo/stencil-buffer-mask.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/maskrenderer/Const.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/spritebatch/const.js",
+		"/C/dev/jam/.gitignore",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/mask/BitmapMask.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/masks/example.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/mask/webgl/BitmapMaskShaderRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/mask/webgl/StencilBufferRenderer.js",
+		"/C/xampp/htdocs/phaser/v3/src/gameobjects/mask/GeometryMask.js",
+		"/C/xampp/htdocs/mask-demo/shader-mask.js",
+		"/C/xampp/htdocs/phaser/v3/src/geom/rectangle/Rectangle.js",
+		"/C/xampp/htdocs/phaser/v3/src/geom/rectangle/GetPoints.js",
+		"/C/xampp/htdocs/phaser/v3/src/geom/rectangle/GetPoint.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/mask/WebGLMask.js",
+		"/C/xampp/htdocs/phaser/v3/src/renderer/mask/CanvasMask.js"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 110.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "demos/test.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3063,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								367,
+								3037
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 324.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "demos/sdf.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1687,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								983,
+								983
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 108.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/xampp/htdocs/js13kgames/code/shaders/entry.glsl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2132,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								288,
+								299
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 54.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "lib/orbital-camera.js",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 4403,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								393,
+								413
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2250.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "lib/noders-gl.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20549,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8557,
+								8557
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3942.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 42.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "noders-gl.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 356.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

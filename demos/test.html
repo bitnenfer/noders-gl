@@ -2,7 +2,9 @@
 <html>
 <head>
 	<title>Test</title>
-	<script type="text/javascript" src="noders-gl.js"></script>
+	<script type="text/javascript" src="../lib/noders-gl.js"></script>
+	<script type="text/javascript" src="../lib/gl-matrix-min.js"></script>
+	<script type="text/javascript" src="../lib/orbital-camera.js"></script>
 </head>
 <body>
 <canvas id="canvas" width="512" height="512"></canvas>
@@ -10,12 +12,14 @@
 	const renderer = new NGL.Renderer({ canvas: document.getElementById('canvas') });
 	const simplePipeline = new NGL.Pipeline({
 		renderer: renderer,
-		vertexSize: Float32Array.BYTES_PER_ELEMENT * 4,
+		vertexSize: Float32Array.BYTES_PER_ELEMENT * 5,
 		vertShader: 
 		`
 		precision mediump float;
 
 		uniform float uTime;
+		uniform mat4 uView;
+		uniform mat4 uProjection;
 
 		attribute vec2 inPosition;
 		attribute vec2 inTexCoord;
@@ -23,12 +27,7 @@
 		varying vec2 outTexCoord;
 
 		void main() {
-			vec2 position;
-			float s = sin(uTime);
-			float c = cos(uTime);
-			position.x = inPosition.x * s + inPosition.y * c;
-			position.y = inPosition.x * c - inPosition.y * s;
-			gl_Position = vec4(position, 0.0, 1.0);
+			gl_Position = uProjection * uView * vec4(inPosition, 0.0, 1.0);
 
 			outTexCoord = inTexCoord;
 		}
@@ -47,27 +46,26 @@
 		`,
 		attributes:  {
 			'inPosition': {
-				size: 2,
+				size: 3,
 				type: NGL.AttribType.FLOAT,
 				offset: 0
 			},
 			'inTexCoord': {
 				size: 2,
 				type: NGL.AttribType.FLOAT,
-				offset: 8
+				offset: Float32Array.BYTES_PER_ELEMENT * 3
 			}
 		}
 	});
 	const vertexBuffer = new NGL.VertexBuffer({
 		renderer: renderer,
 		data: new Float32Array([
-			-0.5, +0.5, +0.0, +0.0,
-			-0.5, -0.5, +0.0, +1.0,
-			+0.5, -0.5, +1.0, +1.0,
-
-			-0.5, +0.5, +0.0, +0.0,
-			+0.5, -0.5, +1.0, +1.0,
-			+0.5, +0.5, +1.0, +0.0
+			-0.5, +0.5, +0.0, +0.0, +0.0,
+			-0.5, -0.5, +0.0, +0.0, +1.0,
+			+0.5, -0.5, +0.0, +1.0, +1.0,
+			-0.5, +0.5, +0.0, +0.0, +0.0,
+			+0.5, -0.5, +0.0, +1.0, +1.0,
+			+0.5, +0.5, +0.0, +1.0, +0.0
 		])
 	});
 	const testTexture = new NGL.Texture2D({
@@ -82,7 +80,6 @@
 		height: 2,
 		filter: NGL.TextureFilter.LINEAR
 	});
-
 	const testTextureRed = new NGL.Texture2D({
 		renderer: renderer,
 		source: new Uint8Array([
@@ -96,9 +93,14 @@
 		filter: NGL.TextureFilter.NEAREST
 	});
 	let time = 0.0;
+	const projection = mat4.create();
+	const view = mat4.create();
+	const camera = new OrbitalCameraControl(view);
 
-	renderer.enableOutputState(NGL.OutputState.BLEND_STATE);
-	renderer.setBlendMode(NGL.BlendMode.SCREEN);
+	mat4.perspective(projection, Math.PI / 8, renderer.getAspectRatio(), 0.01, 1000.0);
+
+	simplePipeline.setUniform('uProjection', NGL.UniformType.MATRIX_4, false, projection);
+	simplePipeline.setUniform('uView', NGL.UniformType.MATRIX_4, false, view);
 
 	requestAnimationFrame(function loop() {
 		renderer.beginPass(vertexBuffer, simplePipeline);
@@ -107,18 +109,16 @@
 
 			time += 0.01;
 			simplePipeline.setUniform('uTime', NGL.UniformType.FLOAT_1, time)
+			simplePipeline.setUniform('uView', NGL.UniformType.MATRIX_4, false, view);
 			renderer.setTexture2D(testTexture);
 			renderer.draw(0, 6);
-	
-			time += 0.6;
-			simplePipeline.setUniform('uTime', NGL.UniformType.FLOAT_1, time)
-			renderer.setTexture2D(testTextureRed);
-			renderer.draw(0, 6);
-			time -= 0.6;
+
+			mat4.rotateY(view, 0.01);
 
 		}
 		renderer.endPass();
 
+		camera.update();
 		requestAnimationFrame(loop);
 	});
 </script>

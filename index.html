@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NodersGL - Editor</title>
+    <script type="text/javascript" src="lib/file-loader.js"></script>
+    <script type="text/javascript" src="lib/objpar.js"></script>
+    <script type="text/javascript" src="lib/gl-matrix.js"></script>
+    <script type="text/javascript" src="lib/orbital-camera.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+
+    <script type="text/javascript" src="lib/monaco-editor/dev/vs/loader.js"></script>
+    <script type="text/javascript" src="lib/noders-gl.js"></script>
+    <script type="text/javascript" src="editor.js"></script>
+    <style type="text/css">
+        .tab {
+            height: 18px;
+            width: 60px;
+            padding: 0 8px;
+            float: left;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 14px;
+            border: solid 1px #8E8E8E;
+            background-color: #8E8E8E;
+            color: #D4D4D4;
+            cursor: pointer;
+            bottom: 0px;
+            margin-top: 2px;
+            text-align: center;
+        }
+        .tab.active {
+            height: 20px;
+            background-color: #1E1E1E;
+            color: #D4D4D4;
+            border-bottom: solid 1px #1E1E1E;
+            margin-top: 0;
+        }
+        .tabArea {
+            height: 20px;
+            box-sizing: border-box;
+        }
+        .left {
+            margin-left: auto;
+            float: left;
+        }
+
+        .right {
+            margin-right: auto;
+            float: right;
+            margin-top: -20px;
+        }
+        #canvas {
+            border: 1px solid #8E8E8E;
+            margin: auto;
+            display: block;
+            outline: 0px;
+            left: 25%;
+            top: 0px;
+            width: auto;
+            height: 100%;
+            image-rendering: optimizeSpeed;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -o-crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: pixelated;
+            image-rendering: optimize-contrast; 
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+        body
+        {
+            background-color: #000000;
+            color: #fff;
+            font-family: Consolas, "Courier New", monospace;
+        }
+        #error-output
+        {
+            color: #fff;
+        }
+        .wrapper {
+            width: 1300px;
+            margin: 0 auto;
+        }
+        select
+        {
+            background-color: #000;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        model: <select id="model">
+            <option selected> cube </option>
+            <option> sphere </option>
+            <option> suzanne </option>
+            <option> teapot </option>
+            <option> torus </option>
+        </select>
+        texture-0: <select id="texture0">
+            <option selected> basic </option>
+            <option> rock0-diff </option>
+            <option> grass-diff </option>
+            <option> rock1-diff </option>
+        </select>
+        texture-1: <select id="texture1">
+            <option selected> basic </option>
+            <option> rock0-norm </option>
+            <option> grass-norm </option>
+            <option> rock1-norm </option>
+        </select>
+        <input id="compile-btn" type="button" value="compile" onclick="compileShader(this);">
+        <div><pre id="error-output">no error</pre></div>
+
+        <div class="left">
+            <canvas id="canvas" width="512" height="512"></canvas>
+        </div>
+        <div class="right">
+            <div class="tabArea">
+                <div id="vert-tab" class="tab active" style="border-right: 0px;">Vert</div>
+                <div id="frag-tab" class="tab" style="border-left: 0px;">Frag</div>
+            </div>
+            <div id="shader-editor" style="width:780px;height:512px;border:1.5px solid grey"></div>
+        </div>
+    </div>
+</body>
+</html>
