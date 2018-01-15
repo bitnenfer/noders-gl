@@ -88,23 +88,29 @@
 </head>
 <body>
     <div class="wrapper">
-        model: <select id="model">
+        model: <select id="model" onchange="onModelSelection(this);">
             <option selected> cube </option>
             <option> sphere </option>
             <option> suzanne </option>
             <option> teapot </option>
             <option> torus </option>
         </select>
-        texture-0: <select id="texture0">
+        texture-0: <select id="texture0" onchange="onTexture0Selection(this);">
             <option selected> basic </option>
             <option> rock0-diff </option>
-            <option> grass-diff </option>
-            <option> rock1-diff </option>
-        </select>
-        texture-1: <select id="texture1">
-            <option selected> basic </option>
             <option> rock0-norm </option>
+            <option> grass-diff </option>
             <option> grass-norm </option>
+            <option> rock1-diff </option>
+            <option> rock1-norm </option>
+        </select>
+        texture-1: <select id="texture1" onchange="onTexture1Selection(this);">
+            <option selected> basic </option>
+            <option> rock0-diff </option>
+            <option> rock0-norm </option>
+            <option> grass-diff </option>
+            <option> grass-norm </option>
+            <option> rock1-diff </option>
             <option> rock1-norm </option>
         </select>
         <input id="compile-btn" type="button" value="compile" onclick="compileShader(this);">

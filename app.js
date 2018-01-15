@@ -171,6 +171,7 @@ function startApp(models)
             renderer.setTexture2D(textures[currentBaseTexture], 0);
             renderer.setTexture2D(textures[currentNormalTexture], 1);
 
+
             renderer.beginPass(modelBuffers[currentModel].vertexBuffer, pipeline);
             renderer.clearTarget(NGL.ClearTarget.ALL);
             renderer.draw(0, modelBuffers[currentModel].vertexCount);
@@ -230,6 +231,25 @@ function startApp(models)
 
             errorOutput.innerHTML = 'Compilation Time: ' + total.toFixed(2) + 'ms';
         }
+    };
+
+    window.onModelSelection = function (evt)
+    {
+        currentModel = evt.selectedIndex;
+    };
+
+    window.onTexture0Selection = function (evt)
+    {
+        currentBaseTexture = evt.selectedIndex;
+        renderer.setTexture2D(textures[currentBaseTexture], 0);
+        renderer.textureDirty = true;
+    };
+
+    window.onTexture1Selection = function (evt)
+    {
+        currentNormalTexture = evt.selectedIndex;
+        renderer.setTexture2D(textures[currentNormalTexture], 1);
+        renderer.textureDirty = true;
     };
 
     window.onkeydown = function (evt)
