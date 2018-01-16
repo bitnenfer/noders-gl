@@ -84,7 +84,8 @@ function startApp(models)
                 'Rock1 Norm.': 6
             }
         },
-        fontSize: 15
+        fontSize: 15,
+        theme: 'vs-dark'
     };
     let lastTime = 0;
 
@@ -142,6 +143,7 @@ function startApp(models)
     textureFolder.add(guiData.texture, 'texture1', guiData.texture.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
 
     models.editor.updateOptions({fontSize: guiData.fontSize});
+    models.monaco.editor.setTheme(guiData.theme);
 
     mat4.perspective(projection, Math.PI / 3, renderer.getAspectRatio(), 0.01, 1000.0);
 
@@ -391,8 +393,13 @@ function startApp(models)
     const editorGUI = gui.addFolder('Editor');
 
     editorGUI.add(window, 'run');
-    editorGUI.add(guiData, 'fontSize').onFinishChange(function (value) {
+    editorGUI.add(guiData, 'fontSize').onChange(function (value) {
         models.editor.updateOptions({fontSize: value});
+        localStorage.setItem('guiData', JSON.stringify(guiData));
+    });
+    editorGUI.add(guiData, 'theme', ['vs-dark', 'vs']).onChange(function (value) {
+        models.monaco.editor.setTheme(value);
+        localStorage.setItem('guiData', JSON.stringify(guiData));
     });
     editorGUI.addFolder('Reset').add(window, 'reset');
     gui.closed = true;

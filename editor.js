@@ -30,6 +30,6 @@ require(['vs/editor/editor.main'], function() {
         vertTab.className = 'tab';
     };
 
-    startApp({ editor: editor, vert: vertModel, frag: fragModel });
+    startApp({ monaco: monaco, editor: editor, vert: vertModel, frag: fragModel });
 
 });
