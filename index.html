@@ -6,12 +6,31 @@
     <script type="text/javascript" src="lib/objpar.js"></script>
     <script type="text/javascript" src="lib/gl-matrix.js"></script>
     <script type="text/javascript" src="lib/orbital-camera.js"></script>
-    <script type="text/javascript" src="app.js"></script>
 
+    <script type="text/javascript" src="lib/dat.gui/dat.gui.js"></script>
     <script type="text/javascript" src="lib/monaco-editor/dev/vs/loader.js"></script>
     <script type="text/javascript" src="lib/noders-gl.js"></script>
     <script type="text/javascript" src="editor.js"></script>
+    <script type="text/javascript" src="app.js"></script>
     <style type="text/css">
+        .noselect {
+          -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+             -khtml-user-select: none; /* Konqueror HTML */
+               -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none; /* Non-prefixed version, currently
+                                          supported by Chrome and Opera */
+        }
+        .allowSelect {
+            -webkit-touch-callout: auto; /* iOS Safari */
+            -webkit-user-select: auto; /* Safari */
+             -khtml-user-select: auto; /* Konqueror HTML */
+               -moz-user-select: auto; /* Firefox */
+                -ms-user-select: auto; /* Internet Explorer/Edge */
+                    user-select: auto; /* Non-prefixed version, currently
+                                          supported by Chrome and Opera */
+        }
         .tab {
             height: 18px;
             width: 60px;
@@ -71,10 +90,6 @@
             color: #fff;
             font-family: Consolas, "Courier New", monospace;
         }
-        #error-output
-        {
-            color: #fff;
-        }
         .wrapper {
             width: 1300px;
             margin: 0 auto;
@@ -84,47 +99,31 @@
             background-color: #000;
             color: #aaa;
         }
+        .noerror
+        {
+            color: #77ff77;
+        }
+        .goterror
+        {
+            color: #ff7777;
+        }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        model: <select id="model" onchange="onModelSelection(this);">
-            <option selected> cube </option>
-            <option> sphere </option>
-            <option> suzanne </option>
-            <option> teapot </option>
-            <option> torus </option>
-        </select>
-        texture-0: <select id="texture0" onchange="onTexture0Selection(this);">
-            <option selected> basic </option>
-            <option> rock0-diff </option>
-            <option> rock0-norm </option>
-            <option> grass-diff </option>
-            <option> grass-norm </option>
-            <option> rock1-diff </option>
-            <option> rock1-norm </option>
-        </select>
-        texture-1: <select id="texture1" onchange="onTexture1Selection(this);">
-            <option selected> basic </option>
-            <option> rock0-diff </option>
-            <option> rock0-norm </option>
-            <option> grass-diff </option>
-            <option> grass-norm </option>
-            <option> rock1-diff </option>
-            <option> rock1-norm </option>
-        </select>
-        <input id="compile-btn" type="button" value="compile" onclick="compileShader(this);">
-        <div><pre id="error-output">no error</pre></div>
+    <div class="wrapper noselect">
+        <div style="margin-top: 20px;width: 512px; font-size: 14px;"><div class="noerror" id="error-output">no error</div></div>
 
-        <div class="left">
-            <canvas id="canvas" width="512" height="512"></canvas>
-        </div>
-        <div class="right">
-            <div class="tabArea">
-                <div id="vert-tab" class="tab active" style="border-right: 0px;">Vert</div>
-                <div id="frag-tab" class="tab" style="border-left: 0px;">Frag</div>
+        <div style="margin-top: 20px;">
+            <div class="left">
+                <canvas id="canvas" width="512" height="512"></canvas>
             </div>
-            <div id="shader-editor" style="width:780px;height:512px;border:1.5px solid grey"></div>
+            <div class="right">
+                <div class="tabArea">
+                    <div id="vert-tab" class="tab active" style="border-right: 0px;">Vert</div>
+                    <div id="frag-tab" class="tab" style="border-left: 0px;">Frag</div>
+                </div>
+                <div id="shader-editor" style="width:780px;height:512px;border:1.5px solid grey"></div>
+            </div>
         </div>
     </div>
 </body>

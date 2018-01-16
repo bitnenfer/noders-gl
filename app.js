@@ -1,7 +1,12 @@
-window.compileShader = function _stub (evt) {};
+window.run = function _stub (evt) {};
 
 function startApp(models)
 {
+    const gui = new dat.GUI();
+    const modelFolder = gui.addFolder('Model');
+    const lightFolder = gui.addFolder('Material');
+    const textureFolder = gui.addFolder('Texture');
+    const bgFolder = gui.addFolder('Background');
     const fileLoader = new FileLoader();
     const errorOutput = document.getElementById('error-output');
     const renderer = new NGL.Renderer({ canvas: document.getElementById('canvas'), depth: true });
@@ -39,14 +44,101 @@ function startApp(models)
     });
     const modelBuffers = [];
     const textures = [];
+    const modelQuat = quat.create();
+    const modelRotMat = mat4.create();
     const model = mat4.create();
     const view = mat4.create();
+    const invModel = mat4.create();
+    const invView = mat4.create();
     const projection = mat4.create();
     const camera = new OrbitalCameraControl(view, 5, renderer.canvas);
-    let currentModel = 0;
-    let currentBaseTexture = 0;
-    let currentNormalTexture = 0;
+    const guiDataJSON = localStorage.getItem('guiData');
+    const guiData = guiDataJSON ? JSON.parse(guiDataJSON) : {
+        color: [138,227,255],
+        diffuse: [128, 128, 128],
+        ambient: [51, 51, 51],
+        model: {
+            model: 0,
+            translate: {x: 0, y: 0, z: 0},
+            scale: {x: 1, y: 1, z: 1},
+            rotation: {x: 0, y: 0, z: 0},
+            list: {
+                cube: 0,
+                sphere: 1,
+                suzanne: 2,
+                teapot: 3,
+                torus: 4
+            }
+        },
+        texture: {
+            texture0: 0,
+            texture1: 0,
+            list: {
+                'checker': 0,
+                'rock0-diff': 1,
+                'rock0-norm': 2,
+                'grass-diff': 3,
+                'grass-norm': 4,
+                'rock1-diff': 5,
+                'rock1-norm': 6
+            }
+        },
+        fontSize: 15
+    };
     let lastTime = 0;
+
+    guiData.model.translate.x = 0;
+    guiData.model.translate.y = 0;
+    guiData.model.translate.z = 0;
+    guiData.model.scale.x = 1;
+    guiData.model.scale.y = 1;
+    guiData.model.scale.z = 1;
+    guiData.model.rotation.x = 0;
+    guiData.model.rotation.y = 0;
+    guiData.model.rotation.z = 0;
+
+    window.resetTransform = function ()
+    {
+        guiData.model.translate.x = 0;
+        guiData.model.translate.y = 0;
+        guiData.model.translate.z = 0;
+        guiData.model.scale.x = 1;
+        guiData.model.scale.y = 1;
+        guiData.model.scale.z = 1;
+        guiData.model.rotation.x = 0;
+        guiData.model.rotation.y = 0;
+        guiData.model.rotation.z = 0;
+    };
+
+
+    bgFolder.addColor(guiData, 'color');
+    lightFolder.addColor(guiData, 'diffuse');
+    lightFolder.addColor(guiData, 'ambient');
+
+    modelFolder.add(guiData.model, 'model', guiData.model.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
+    modelFolder.add(window, 'resetTransform');
+    const modelTranslateFolder = modelFolder.addFolder('Translate');
+    const modelScaleFolder = modelFolder.addFolder('Scale');
+    const modelRotateFolder = modelFolder.addFolder('Rotate');
+
+
+
+    modelTranslateFolder.add(guiData.model.translate, 'x').step(0.1);
+    modelTranslateFolder.add(guiData.model.translate, 'y').step(0.1);
+    modelTranslateFolder.add(guiData.model.translate, 'z').step(0.1);
+
+    modelScaleFolder.add(guiData.model.scale, 'x').step(0.1);
+    modelScaleFolder.add(guiData.model.scale, 'y').step(0.1);
+    modelScaleFolder.add(guiData.model.scale, 'z').step(0.1);
+
+    modelRotateFolder.add(guiData.model.rotation, 'x').step(0.01);
+    modelRotateFolder.add(guiData.model.rotation, 'y').step(0.01);
+    modelRotateFolder.add(guiData.model.rotation, 'z').step(0.01);
+
+    textureFolder.add(guiData.texture, 'texture0', guiData.texture.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
+    textureFolder.add(guiData.texture, 'texture1', guiData.texture.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
+
+    models.editor.updateOptions({fontSize: guiData.fontSize});
 
     mat4.perspective(projection, Math.PI / 3, renderer.getAspectRatio(), 0.01, 1000.0);
 
@@ -159,22 +251,40 @@ function startApp(models)
 
         if (pipeline.isValid)
         {
+            quat.identity(modelQuat);
+            quat.rotateX(modelQuat, modelQuat, guiData.model.rotation.x);
+            quat.rotateY(modelQuat, modelQuat, guiData.model.rotation.y);
+            quat.rotateZ(modelQuat, modelQuat, guiData.model.rotation.z);
+            mat4.fromQuat(modelRotMat, modelQuat);
+            mat4.identity(model);
+            mat4.mul(model, model, modelRotMat);
+            mat4.scale(model, model, [guiData.model.scale.x, guiData.model.scale.y, guiData.model.scale.z]);
+            mat4.translate(model, model, [guiData.model.translate.x, guiData.model.translate.y, guiData.model.translate.z]);
+
+            mat4.invert(invModel, model);
+            mat4.invert(invView, view);
+            mat4.transpose(invView, invView);
+            mat4.transpose(invModel, invModel);
+
             pipeline.setUniform('uModel', NGL.UniformType.MATRIX_4, false, model);
+            pipeline.setUniform('uInvModel', NGL.UniformType.MATRIX_4, false, invModel);
             pipeline.setUniform('uView', NGL.UniformType.MATRIX_4, false, view);
+            pipeline.setUniform('uInvView', NGL.UniformType.MATRIX_4, false, invView);
             pipeline.setUniform('uProjection', NGL.UniformType.MATRIX_4, false, projection);
-            pipeline.setUniform('uTime', NGL.UniformType.FLOAT_1, frameTime);
-            pipeline.setUniform('uDeltaTime', NGL.UniformType.FLOAT_1, deltaTime);
+            pipeline.setUniform('uTime', NGL.UniformType.FLOAT_1, frameTime * 0.001);
             pipeline.setUniform('uSampler0', NGL.UniformType.INT_1, 0);
             pipeline.setUniform('uSampler1', NGL.UniformType.INT_1, 1);
+            pipeline.setUniform('uDiffuse', NGL.UniformType.FLOAT_3, guiData.diffuse[0] / 255, guiData.diffuse[1] / 255, guiData.diffuse[2] / 255);
+            pipeline.setUniform('uAmbient', NGL.UniformType.FLOAT_3, guiData.ambient[0] / 255, guiData.ambient[1] / 255, guiData.ambient[2] / 255);
             pipeline.setUniform('uResolution', NGL.UniformType.FLOAT_2, renderer.canvas.width, renderer.canvas.height);
 
-            renderer.setTexture2D(textures[currentBaseTexture], 0);
-            renderer.setTexture2D(textures[currentNormalTexture], 1);
+            renderer.setTexture2D(textures[guiData.texture.texture0], 0);
+            renderer.setTexture2D(textures[guiData.texture.texture1], 1);
 
-
-            renderer.beginPass(modelBuffers[currentModel].vertexBuffer, pipeline);
+            renderer.beginPass(modelBuffers[guiData.model.model].vertexBuffer, pipeline);
+            renderer.setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
             renderer.clearTarget(NGL.ClearTarget.ALL);
-            renderer.draw(0, modelBuffers[currentModel].vertexCount);
+            renderer.draw(0, modelBuffers[guiData.model.model].vertexCount);
             renderer.endPass();
         }
 
@@ -182,8 +292,13 @@ function startApp(models)
         requestAnimationFrame(renderScene);
     }
 
+    window.reset = function()
+    {
+        localStorage.clear();
+        location.reload();
+    };
 
-    window.compileShader = function (evt)
+    window.run = function (evt)
     {
         errorOutput.innerHTML = 'no error';
 
@@ -220,17 +335,24 @@ function startApp(models)
         if (pipeline.errorLog.length > 0)
         {
             errorOutput.innerHTML = pipeline.errorLog.join('\n');
+            errorOutput.className = 'goterror';
         }
         else
         {
-            //pipeline.bind();
-            //testVertexBuffer.bind();
-            //renderer.gl.drawArrays(renderer.gl.TRIANGLES, 0, 3);
+            pipeline.bind();
+            testVertexBuffer.bind();
+            renderer.gl.drawArrays(renderer.gl.TRIANGLES, 0, 3);
             const end = performance.now();
             const total = end - start;
 
             errorOutput.innerHTML = 'Compilation Time: ' + total.toFixed(2) + 'ms';
+            errorOutput.className = 'noerror';
+
+            renderer.lastPipeline = null;
         }
+
+        localStorage.setItem('guiData', JSON.stringify(guiData));
+
     };
 
     window.onModelSelection = function (evt)
@@ -256,11 +378,19 @@ function startApp(models)
     {
         if ((evt.ctrlKey && evt.code === 'KeyS'))
         {
-            compileShader();
+            run();
             return false;
         }
         return true;
     };
+
+    const editorGUI = gui.addFolder('Editor');
+
+    editorGUI.add(window, 'run');
+    editorGUI.add(guiData, 'fontSize').onFinishChange(function (value) {
+        models.editor.updateOptions({fontSize: value});
+    });
+    editorGUI.addFolder('Reset').add(window, 'reset');
 }
 
 function ParseOBJ(text)
@@ -291,3 +421,4 @@ function ParseOBJ(text)
 
     return meshData;
 }
+
