@@ -2,9 +2,9 @@ window.run = function _stub (evt) {};
 
 function startApp(models)
 {
-    const gui = new dat.GUI();
+    const gui = new dat.GUI({closed: true, closeOnTop: true});
     const modelFolder = gui.addFolder('Model');
-    const lightFolder = gui.addFolder('Material');
+    const lightFolder = gui.addFolder('Light');
     const textureFolder = gui.addFolder('Texture');
     const bgFolder = gui.addFolder('Background');
     const fileLoader = new FileLoader();
@@ -57,30 +57,31 @@ function startApp(models)
         color: [138,227,255],
         diffuse: [128, 128, 128],
         ambient: [51, 51, 51],
+        direction: {x: 0, y: 1.0, z: 0},
         model: {
             model: 0,
             translate: {x: 0, y: 0, z: 0},
             scale: {x: 1, y: 1, z: 1},
             rotation: {x: 0, y: 0, z: 0},
             list: {
-                cube: 0,
-                sphere: 1,
-                suzanne: 2,
-                teapot: 3,
-                torus: 4
+                'Cube': 0,
+                'Sphere': 1,
+                'Blender Suzanne': 2,
+                'Utha Teapot': 3,
+                'Torus': 4
             }
         },
         texture: {
             texture0: 0,
             texture1: 0,
             list: {
-                'checker': 0,
-                'rock0-diff': 1,
-                'rock0-norm': 2,
-                'grass-diff': 3,
-                'grass-norm': 4,
-                'rock1-diff': 5,
-                'rock1-norm': 6
+                'Checker': 0,
+                'Rock0 Diff.': 1,
+                'Rock0 Norm.': 2,
+                'Grass Diff.': 3,
+                'Grass Norm.': 4,
+                'Rock1 Diff.': 5,
+                'Rock1 Norm.': 6
             }
         },
         fontSize: 15
@@ -114,6 +115,10 @@ function startApp(models)
     bgFolder.addColor(guiData, 'color');
     lightFolder.addColor(guiData, 'diffuse');
     lightFolder.addColor(guiData, 'ambient');
+    const lightDir = lightFolder.addFolder('Direction');
+    lightDir.add(guiData.direction, 'x').step(0.01);
+    lightDir.add(guiData.direction, 'y').step(0.01);
+    lightDir.add(guiData.direction, 'z').step(0.01);
 
     modelFolder.add(guiData.model, 'model', guiData.model.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
     modelFolder.add(window, 'resetTransform');
@@ -121,19 +126,17 @@ function startApp(models)
     const modelScaleFolder = modelFolder.addFolder('Scale');
     const modelRotateFolder = modelFolder.addFolder('Rotate');
 
+    modelTranslateFolder.add(guiData.model.translate, 'x').step(0.1).listen();
+    modelTranslateFolder.add(guiData.model.translate, 'y').step(0.1).listen();
+    modelTranslateFolder.add(guiData.model.translate, 'z').step(0.1).listen();
 
+    modelScaleFolder.add(guiData.model.scale, 'x').step(0.1).listen();
+    modelScaleFolder.add(guiData.model.scale, 'y').step(0.1).listen();
+    modelScaleFolder.add(guiData.model.scale, 'z').step(0.1).listen();
 
-    modelTranslateFolder.add(guiData.model.translate, 'x').step(0.1);
-    modelTranslateFolder.add(guiData.model.translate, 'y').step(0.1);
-    modelTranslateFolder.add(guiData.model.translate, 'z').step(0.1);
-
-    modelScaleFolder.add(guiData.model.scale, 'x').step(0.1);
-    modelScaleFolder.add(guiData.model.scale, 'y').step(0.1);
-    modelScaleFolder.add(guiData.model.scale, 'z').step(0.1);
-
-    modelRotateFolder.add(guiData.model.rotation, 'x').step(0.01);
-    modelRotateFolder.add(guiData.model.rotation, 'y').step(0.01);
-    modelRotateFolder.add(guiData.model.rotation, 'z').step(0.01);
+    modelRotateFolder.add(guiData.model.rotation, 'x').step(0.01).listen();
+    modelRotateFolder.add(guiData.model.rotation, 'y').step(0.01).listen();
+    modelRotateFolder.add(guiData.model.rotation, 'z').step(0.01).listen();
 
     textureFolder.add(guiData.texture, 'texture0', guiData.texture.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
     textureFolder.add(guiData.texture, 'texture1', guiData.texture.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
@@ -277,6 +280,7 @@ function startApp(models)
             pipeline.setUniform('uDiffuse', NGL.UniformType.FLOAT_3, guiData.diffuse[0] / 255, guiData.diffuse[1] / 255, guiData.diffuse[2] / 255);
             pipeline.setUniform('uAmbient', NGL.UniformType.FLOAT_3, guiData.ambient[0] / 255, guiData.ambient[1] / 255, guiData.ambient[2] / 255);
             pipeline.setUniform('uResolution', NGL.UniformType.FLOAT_2, renderer.canvas.width, renderer.canvas.height);
+            pipeline.setUniform('uLightDir', NGL.UniformType.FLOAT_3, guiData.direction.x, guiData.direction.y, guiData.direction.z);
 
             renderer.setTexture2D(textures[guiData.texture.texture0], 0);
             renderer.setTexture2D(textures[guiData.texture.texture1], 1);
@@ -391,6 +395,9 @@ function startApp(models)
         models.editor.updateOptions({fontSize: value});
     });
     editorGUI.addFolder('Reset').add(window, 'reset');
+    gui.closed = true;
+
+    document.getElementById('shader-editor').onclick = function () {gui.closed = true;};
 }
 
 function ParseOBJ(text)

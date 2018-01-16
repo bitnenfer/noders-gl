@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"light",
+				"lightFolder"
+			],
+			[
 				"edi",
 				"editorGUI"
 			],
@@ -496,10 +500,6 @@
 				"ambientLightColorR"
 			],
 			[
-				"light",
-				"lightsLocations"
-			],
-			[
 				"spr",
 				"spritePool"
 			],
@@ -523,7 +523,7 @@
 			"file": "app.js",
 			"settings":
 			{
-				"buffer_size": 14822,
+				"buffer_size": 15463,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -630,11 +630,7 @@
 	},
 	"expanded_folders":
 	[
-		"/C/xampp/htdocs/noders-gl",
-		"/C/xampp/htdocs/noders-gl/data",
-		"/C/xampp/htdocs/noders-gl/demos",
-		"/C/xampp/htdocs/noders-gl/lib",
-		"/C/xampp/htdocs/noders-gl/lib/dat.gui"
+		"/C/xampp/htdocs/noders"
 	],
 	"file_history":
 	[
@@ -769,7 +765,7 @@
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -820,15 +816,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14822,
+						"buffer_size": 15463,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3188,
-								3188
+								2043,
+								2043
 							]
 						],
 						"settings":
@@ -838,7 +834,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1449.0,
+						"translation.y": 494.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -857,8 +853,8 @@
 						"selection":
 						[
 							[
-								905,
-								905
+								608,
+								648
 							]
 						],
 						"settings":
@@ -972,7 +968,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 27.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -1020,7 +1016,7 @@
 	"project": "noders-gl.sublime-project",
 	"replace":
 	{
-		"height": 72.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
