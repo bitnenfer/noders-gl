@@ -1,10 +1,37 @@
 window.run = function _stub (evt) {};
 
+window.FPS = {
+    startTime : 0,
+    frameNumber : 0,
+    getFPS : function()
+    {
+        var d = Date.now();
+        var currentTime = (d - this.startTime) / 1000;
+        var result = Math.floor(++this.frameNumber / currentTime);
+        if(currentTime > 1)
+        {
+            this.startTime = new Date.now();
+            this.frameNumber = 0;
+        }
+        return result;
+    }
+};
+
 function startApp(models)
 {
+    if (location.hash === '#clear') localStorage.clear();
+
+    const msView = document.getElementById('ms-view');
+    const msViewAvg = document.getElementById('ms-view-avg');
+    const audio = new Audio('data/media/hbf.mp3');
+    const audioContext = new AudioContext();
+    const audioSource = audioContext.createMediaElementSource(audio);
+    const audioAnalyser = audioContext.createAnalyser();
     const gui = new dat.GUI({closed: true, closeOnTop: true});
+    const shaderFolder = gui.addFolder('Shader');
     const modelFolder = gui.addFolder('Model');
-    const lightFolder = gui.addFolder('Light');
+    const lightFolder = gui.addFolder('Material');
+    const lightDir = gui.addFolder('Light Direction');
     const textureFolder = gui.addFolder('Texture');
     const bgFolder = gui.addFolder('Background');
     const fileLoader = new FileLoader();
@@ -14,6 +41,7 @@ function startApp(models)
         renderer: renderer,
         data: new Float32Array(1000)
     });
+    let fftTexture = null;
     let pipeline = new NGL.Pipeline({
         renderer: renderer,
         vertexSize: Float32Array.BYTES_PER_ELEMENT * 11,
@@ -49,15 +77,19 @@ function startApp(models)
     const model = mat4.create();
     const view = mat4.create();
     const invModel = mat4.create();
+    const viewPos = vec3.create();
     const invView = mat4.create();
+    const invModelView = mat4.create();
     const projection = mat4.create();
     const camera = new OrbitalCameraControl(view, 5, renderer.canvas);
     const guiDataJSON = localStorage.getItem('guiData');
     const guiData = guiDataJSON ? JSON.parse(guiDataJSON) : {
-        color: [138,227,255],
+        color: [49,59,78],
         diffuse: [128, 128, 128],
         ambient: [51, 51, 51],
-        direction: {x: 0, y: 1.0, z: 0},
+        specular: [255, 255, 255],
+        shininess: 256,
+        direction: {x: 0.5, y: 0.5, z: 0.5},
         model: {
             model: 0,
             translate: {x: 0, y: 0, z: 0},
@@ -68,27 +100,53 @@ function startApp(models)
                 'Sphere': 1,
                 'Blender Suzanne': 2,
                 'Utha Teapot': 3,
-                'Torus': 4
+                'Serapis': 4
             }
         },
         texture: {
-            texture0: 0,
+            texture: 0,
             texture1: 0,
             list: {
                 'Checker': 0,
-                'Rock0 Diff.': 1,
-                'Rock0 Norm.': 2,
-                'Grass Diff.': 3,
-                'Grass Norm.': 4,
-                'Rock1 Diff.': 5,
-                'Rock1 Norm.': 6
+                'Marble': 1,
+                'Rock Diff.': 2,
+                'Rock Norm.': 3
             }
         },
         fontSize: 15,
-        theme: 'vs-dark'
+        theme: 'vs-dark',
+        shaders: {
+            shader: 0,
+            currentShader: 0,
+            list: [ 
+                { vert: null, frag: null },
+                { vert: null, frag: null },
+                { vert: null, frag: null },
+                { vert: null, frag: null },
+                { vert: null, frag: null },
+                { vert: null, frag: null },
+                { vert: null, frag: null },
+                { vert: null, frag: null },
+                { vert: null, frag: null },
+                { vert: null, frag: null }
+            ],
+            names: {
+                'Simple': 0,
+                '3D Projection': 1,
+                'Texture': 2,
+                'Diffuse Shading': 3,
+                'Blinn-Phong Shading': 4,
+                'Blinn-Phong + Texture Shading': 5,
+                '[NODEMO]': 6
+            }
+        },
+        media: {
+            play: false
+        }
     };
     let lastTime = 0;
 
+    guiData.media.play = false;
     guiData.model.translate.x = 0;
     guiData.model.translate.y = 0;
     guiData.model.translate.z = 0;
@@ -112,14 +170,23 @@ function startApp(models)
         guiData.model.rotation.z = 0;
     };
 
+    window.goFullScreen = function ()
+    {
+
+    };
+
 
     bgFolder.addColor(guiData, 'color');
     lightFolder.addColor(guiData, 'diffuse');
     lightFolder.addColor(guiData, 'ambient');
-    const lightDir = lightFolder.addFolder('Direction');
+    lightFolder.addColor(guiData, 'specular');
+    lightFolder.add(guiData, 'shininess').min(16).max(1024);
     lightDir.add(guiData.direction, 'x').step(0.01);
     lightDir.add(guiData.direction, 'y').step(0.01);
     lightDir.add(guiData.direction, 'z').step(0.01);
+
+
+    shaderFolder.add(guiData.shaders, 'shader', guiData.shaders.names).onFinishChange(function (value) { window.run(); });
 
     modelFolder.add(guiData.model, 'model', guiData.model.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
     modelFolder.add(window, 'resetTransform');
@@ -139,8 +206,7 @@ function startApp(models)
     modelRotateFolder.add(guiData.model.rotation, 'y').step(0.01).listen();
     modelRotateFolder.add(guiData.model.rotation, 'z').step(0.01).listen();
 
-    textureFolder.add(guiData.texture, 'texture0', guiData.texture.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
-    textureFolder.add(guiData.texture, 'texture1', guiData.texture.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
+    textureFolder.add(guiData.texture, 'texture', guiData.texture.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
 
     models.editor.updateOptions({fontSize: guiData.fontSize});
     models.monaco.editor.setTheme(guiData.theme);
@@ -153,15 +219,28 @@ function startApp(models)
     fileLoader.addText('sphere', 'data/meshes/sphere.obj');
     fileLoader.addText('suzanne', 'data/meshes/suzanne.obj');
     fileLoader.addText('teapot', 'data/meshes/teapot.obj');
-    fileLoader.addText('torus', 'data/meshes/torus.obj');
+    fileLoader.addText('torus', 'data/meshes/serapis.obj');
 
     fileLoader.addImage('basic', 'data/textures/texture.png');
-    fileLoader.addImage('rock0-diffuse', 'data/textures/165.jpg');
-    fileLoader.addImage('rock0-normal', 'data/textures/165_norm.jpg');
-    fileLoader.addImage('grass-diffuse', 'data/textures/grass.jpg');
-    fileLoader.addImage('grass-normal', 'data/textures/grass-normal.png');
-    fileLoader.addImage('rock1-diffuse', 'data/textures/rocks_01_dif.jpg');
-    fileLoader.addImage('rock1-normal', 'data/textures/rocks_01_nm.jpg');
+    fileLoader.addImage('marble', 'data/textures/marble.jpg');
+    fileLoader.addImage('rock-diffuse', 'data/textures/rocks_01_dif.jpg');
+    fileLoader.addImage('rock-normal', 'data/textures/rocks_01_nm.jpg');
+
+    // shaders
+    fileLoader.addText('simple_shader.frag', 'data/shaders/simple_shader.frag');
+    fileLoader.addText('simple_shader.vert', 'data/shaders/simple_shader.vert');
+    fileLoader.addText('mvp_shader.frag', 'data/shaders/mvp_shader.frag');
+    fileLoader.addText('mvp_shader.vert', 'data/shaders/mvp_shader.vert');
+    fileLoader.addText('texture_shader.frag', 'data/shaders/texture_shader.frag');
+    fileLoader.addText('texture_shader.vert', 'data/shaders/texture_shader.vert');
+    fileLoader.addText('diffuse_shader.frag', 'data/shaders/diffuse_shader.frag');
+    fileLoader.addText('diffuse_shader.vert', 'data/shaders/diffuse_shader.vert');
+    fileLoader.addText('blinn_phong_shader.frag', 'data/shaders/blinn_phong_shader.frag');
+    fileLoader.addText('blinn_phong_shader.vert', 'data/shaders/blinn_phong_shader.vert');
+    fileLoader.addText('blinn_phong_texture_shader.frag', 'data/shaders/blinn_phong_texture_shader.frag');
+    fileLoader.addText('blinn_phong_texture_shader.vert', 'data/shaders/blinn_phong_texture_shader.vert');
+    fileLoader.addText('nodemo.frag', 'data/shaders/nodemo.frag');
+    fileLoader.addText('nodemo.vert', 'data/shaders/nodemo.vert');
 
     fileLoader.process(function run () {
 
@@ -218,44 +297,80 @@ function startApp(models)
 
         textures[1] = new NGL.Texture2D({
             renderer: renderer,
-            source: fileLoader.getImage('rock0-diffuse')
+            source: fileLoader.getImage('marble')
         });
 
         textures[2] = new NGL.Texture2D({
             renderer: renderer,
-            source: fileLoader.getImage('rock0-normal')
-        });
-
-        textures[3] = new NGL.Texture2D({
-            renderer: renderer,
-            source: fileLoader.getImage('grass-diffuse')
-        });
-
-        textures[4] = new NGL.Texture2D({
-            renderer: renderer,
-            source: fileLoader.getImage('grass-normal')
-        });
-        
-        textures[5] = new NGL.Texture2D({
-            renderer: renderer,
-            source: fileLoader.getImage('rock1-diffuse')
+            source: fileLoader.getImage('rock-diffuse')
         });
     
-        textures[6] = new NGL.Texture2D({
+        textures[3] = new NGL.Texture2D({
             renderer: renderer,
-            source: fileLoader.getImage('rock1-normal')
+            source: fileLoader.getImage('rock-normal')
         });
+
+        fftTexture = new NGL.Texture2D({
+            renderer: renderer,
+            width: 32,
+            height: 1,
+            source: null
+        });
+
+        guiData.shaders.list[0].vert = guiData.shaders.list[0].vert ? guiData.shaders.list[0].vert : fileLoader.getText('simple_shader.vert');
+        guiData.shaders.list[0].frag = guiData.shaders.list[0].frag ? guiData.shaders.list[0].frag : fileLoader.getText('simple_shader.frag');
+        guiData.shaders.list[1].vert = guiData.shaders.list[1].vert ? guiData.shaders.list[1].vert : fileLoader.getText('mvp_shader.vert');
+        guiData.shaders.list[1].frag = guiData.shaders.list[1].frag ? guiData.shaders.list[1].frag : fileLoader.getText('mvp_shader.frag');
+        guiData.shaders.list[2].vert = guiData.shaders.list[2].vert ? guiData.shaders.list[2].vert : fileLoader.getText('texture_shader.vert');
+        guiData.shaders.list[2].frag = guiData.shaders.list[2].frag ? guiData.shaders.list[2].frag : fileLoader.getText('texture_shader.frag');
+        guiData.shaders.list[3].vert = guiData.shaders.list[3].vert ? guiData.shaders.list[3].vert : fileLoader.getText('diffuse_shader.vert');
+        guiData.shaders.list[3].frag = guiData.shaders.list[3].frag ? guiData.shaders.list[3].frag : fileLoader.getText('diffuse_shader.frag');
+        guiData.shaders.list[4].vert = guiData.shaders.list[4].vert ? guiData.shaders.list[4].vert : fileLoader.getText('blinn_phong_shader.vert');
+        guiData.shaders.list[4].frag = guiData.shaders.list[4].frag ? guiData.shaders.list[4].frag : fileLoader.getText('blinn_phong_shader.frag');
+        guiData.shaders.list[5].vert = guiData.shaders.list[5].vert ? guiData.shaders.list[5].vert : fileLoader.getText('blinn_phong_texture_shader.vert');
+        guiData.shaders.list[5].frag = guiData.shaders.list[5].frag ? guiData.shaders.list[5].frag : fileLoader.getText('blinn_phong_texture_shader.frag');
+        guiData.shaders.list[6].vert = guiData.shaders.list[6].vert ? guiData.shaders.list[6].vert : fileLoader.getText('nodemo.vert');
+        guiData.shaders.list[6].frag = guiData.shaders.list[6].frag ? guiData.shaders.list[6].frag : fileLoader.getText('nodemo.frag');
+
+        models.vert.setValue(guiData.shaders.list[guiData.shaders.shader].vert);
+        models.frag.setValue(guiData.shaders.list[guiData.shaders.shader].frag);
+
+        window.run();
 
         requestAnimationFrame(renderScene);
     });
+
+    // Setup Audio Analyser
+    audioSource.connect(audioContext.destination);
+    // Set the size of the fast fourier transform 
+    audioAnalyser.fftSize = 256;
+    audioSource.connect(audioAnalyser);
+    audio.loop = true;
+
+    const mediaFolder = gui.addFolder('Media');
+
+    mediaFolder.add(guiData.media, 'play').onFinishChange(function (value) { value ? audio.play() : audio.pause(); });
+
+    let avgTime = 0.0;
+    let frameCount = 0;
 
     function renderScene(frameTime)
     {
         const deltaTime = frameTime - lastTime;
         lastTime = frameTime;
 
+        frameCount += 1;
+        avgTime += deltaTime;
+
         if (pipeline.isValid)
         {
+            if (guiData.media.play)
+            {
+                const audioData = new Uint8Array(audioAnalyser.frequencyBinCount);
+                audioAnalyser.getByteFrequencyData(audioData);
+                fftTexture.updateSubData(audioData, 0, 0, 32, 1);
+            }
+
             quat.identity(modelQuat);
             quat.rotateX(modelQuat, modelQuat, guiData.model.rotation.x);
             quat.rotateY(modelQuat, modelQuat, guiData.model.rotation.y);
@@ -266,6 +381,12 @@ function startApp(models)
             mat4.scale(model, model, [guiData.model.scale.x, guiData.model.scale.y, guiData.model.scale.z]);
             mat4.translate(model, model, [guiData.model.translate.x, guiData.model.translate.y, guiData.model.translate.z]);
 
+            mat4.mul(invModelView, view, model);
+            mat4.invert(invModelView, invModelView);
+            mat4.transpose(invModelView, invModelView);
+
+            mat4.getTranslation(viewPos, invModelView);
+
             mat4.invert(invModel, model);
             mat4.invert(invView, view);
             mat4.transpose(invView, invView);
@@ -273,19 +394,23 @@ function startApp(models)
 
             pipeline.setUniform('uModel', NGL.UniformType.MATRIX_4, false, model);
             pipeline.setUniform('uInvModel', NGL.UniformType.MATRIX_4, false, invModel);
+            pipeline.setUniform('uInvModelView', NGL.UniformType.MATRIX_4, false, invModelView);
             pipeline.setUniform('uView', NGL.UniformType.MATRIX_4, false, view);
             pipeline.setUniform('uInvView', NGL.UniformType.MATRIX_4, false, invView);
             pipeline.setUniform('uProjection', NGL.UniformType.MATRIX_4, false, projection);
             pipeline.setUniform('uTime', NGL.UniformType.FLOAT_1, frameTime * 0.001);
-            pipeline.setUniform('uSampler0', NGL.UniformType.INT_1, 0);
-            pipeline.setUniform('uSampler1', NGL.UniformType.INT_1, 1);
+            pipeline.setUniform('uSampler', NGL.UniformType.INT_1, 0);
+            pipeline.setUniform('uFFT', NGL.UniformType.INT_1, 1);
             pipeline.setUniform('uDiffuse', NGL.UniformType.FLOAT_3, guiData.diffuse[0] / 255, guiData.diffuse[1] / 255, guiData.diffuse[2] / 255);
             pipeline.setUniform('uAmbient', NGL.UniformType.FLOAT_3, guiData.ambient[0] / 255, guiData.ambient[1] / 255, guiData.ambient[2] / 255);
+            pipeline.setUniform('uSpecular', NGL.UniformType.FLOAT_3, guiData.specular[0] / 255, guiData.specular[1] / 255, guiData.specular[2] / 255);
+            pipeline.setUniform('uShininess', NGL.UniformType.FLOAT_1, guiData.shininess);
             pipeline.setUniform('uResolution', NGL.UniformType.FLOAT_2, renderer.canvas.width, renderer.canvas.height);
             pipeline.setUniform('uLightDir', NGL.UniformType.FLOAT_3, guiData.direction.x, guiData.direction.y, guiData.direction.z);
+            pipeline.setUniform('uCameraPos', NGL.UniformType.FLOAT_VECTOR_3, viewPos);
 
-            renderer.setTexture2D(textures[guiData.texture.texture0], 0);
-            renderer.setTexture2D(textures[guiData.texture.texture1], 1);
+            renderer.setTexture2D(textures[guiData.texture.texture], 0);
+            renderer.setTexture2D(fftTexture, 1);
 
             renderer.beginPass(modelBuffers[guiData.model.model].vertexBuffer, pipeline);
             renderer.setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
@@ -296,6 +421,14 @@ function startApp(models)
 
         camera.update();
         requestAnimationFrame(renderScene);
+        msView.innerHTML = 'frame time: ' + deltaTime.toFixed(2) + 'ms';
+        if (frameCount > 100)
+        {
+            msViewAvg.innerHTML = 'avg.: ' + (avgTime / frameCount).toFixed(2) + 'ms';
+            frameCount = 0;
+            avgTime = 0;
+        }
+
     }
 
     window.reset = function()
@@ -307,6 +440,19 @@ function startApp(models)
     window.run = function (evt)
     {
         errorOutput.innerHTML = 'no error';
+        
+        renderer.gl.activeTexture(renderer.gl.TEXTURE0);
+        renderer.gl.bindTexture(renderer.gl.TEXTURE_2D, textures[0].texture);
+
+        guiData.shaders.list[guiData.shaders.currentShader].vert = models.vert.getValue();
+        guiData.shaders.list[guiData.shaders.currentShader].frag = models.frag.getValue();
+
+        if (guiData.shaders.currentShader !== guiData.shaders.shader)
+        {
+            models.vert.setValue(guiData.shaders.list[guiData.shaders.shader].vert);
+            models.frag.setValue(guiData.shaders.list[guiData.shaders.shader].frag);
+            guiData.shaders.currentShader = guiData.shaders.shader;
+        }
 
         const start = performance.now();
         pipeline.recompile({
@@ -345,8 +491,8 @@ function startApp(models)
         }
         else
         {
-            pipeline.bind();
             testVertexBuffer.bind();
+            pipeline.bind();
             renderer.gl.drawArrays(renderer.gl.TRIANGLES, 0, 3);
             const end = performance.now();
             const total = end - start;
@@ -359,25 +505,6 @@ function startApp(models)
 
         localStorage.setItem('guiData', JSON.stringify(guiData));
 
-    };
-
-    window.onModelSelection = function (evt)
-    {
-        currentModel = evt.selectedIndex;
-    };
-
-    window.onTexture0Selection = function (evt)
-    {
-        currentBaseTexture = evt.selectedIndex;
-        renderer.setTexture2D(textures[currentBaseTexture], 0);
-        renderer.textureDirty = true;
-    };
-
-    window.onTexture1Selection = function (evt)
-    {
-        currentNormalTexture = evt.selectedIndex;
-        renderer.setTexture2D(textures[currentNormalTexture], 1);
-        renderer.textureDirty = true;
     };
 
     window.onkeydown = function (evt)
@@ -401,6 +528,18 @@ function startApp(models)
         models.monaco.editor.setTheme(value);
         localStorage.setItem('guiData', JSON.stringify(guiData));
     });
+
+    const fullscreen = {
+        fullscreen: function ()
+        {
+            console.log('fullscreen!');
+            if (renderer.canvas.requestFullscreen) renderer.canvas.requestFullscreen()
+            else if (renderer.canvas.webkitRequestFullscreen) renderer.canvas.webkitRequestFullscreen();
+            else if (renderer.canvas.mozRequestFullscreen) renderer.canvas.mozRequestFullscreen();
+        }
+    };
+
+    editorGUI.add(fullscreen, 'fullscreen');
     editorGUI.addFolder('Reset').add(window, 'reset');
     gui.closed = true;
 

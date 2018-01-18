@@ -68,7 +68,6 @@
             margin-top: -20px;
         }
         #canvas {
-            border: 1px solid #8E8E8E;
             margin: auto;
             display: block;
             outline: 0px;
@@ -116,6 +115,8 @@
         <div style="margin-top: 20px;">
             <div class="left">
                 <canvas id="canvas" width="512" height="512"></canvas>
+                <pre id="ms-view" style="margin-bottom: -17px;">frame time: 0ms</pre>
+                <pre id="ms-view-avg">avg.: 0ms</pre>
             </div>
             <div class="right">
                 <div class="tabArea">
@@ -125,6 +126,7 @@
                 <div id="shader-editor" style="width:780px;height:512px;border:1.5px solid grey"></div>
             </div>
         </div>
+
     </div>
 </body>
 </html>
