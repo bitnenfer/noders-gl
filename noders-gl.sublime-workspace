@@ -523,7 +523,7 @@
 			"file": "app.js",
 			"settings":
 			{
-				"buffer_size": 22891,
+				"buffer_size": 22864,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -758,7 +758,7 @@
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
@@ -816,7 +816,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -825,15 +825,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 22891,
+						"buffer_size": 22864,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								18205,
-								18205
+								681,
+								681
 							]
 						],
 						"settings":
@@ -843,10 +843,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6377.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -876,7 +876,7 @@
 						"translation.y": 3417.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{

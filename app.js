@@ -23,7 +23,7 @@ function startApp(models)
 
     const msView = document.getElementById('ms-view');
     const msViewAvg = document.getElementById('ms-view-avg');
-    const audio = new Audio('data/media/hbf.mp3');
+    const audio = new Audio('data/media/skr.mp3');
     const audioContext = new AudioContext();
     const audioSource = audioContext.createMediaElementSource(audio);
     const audioAnalyser = audioContext.createAnalyser();
@@ -136,8 +136,7 @@ function startApp(models)
                 'Texture': 2,
                 'Diffuse Shading': 3,
                 'Blinn-Phong Shading': 4,
-                'Blinn-Phong + Texture Shading': 5,
-                '[NODEMO]': 6
+                'Blinn-Phong + Texture Shading': 5
             }
         },
         media: {
@@ -329,8 +328,8 @@ function startApp(models)
         guiData.shaders.list[4].frag = guiData.shaders.list[4].frag ? guiData.shaders.list[4].frag : fileLoader.getText('blinn_phong_shader.frag');
         guiData.shaders.list[5].vert = guiData.shaders.list[5].vert ? guiData.shaders.list[5].vert : fileLoader.getText('blinn_phong_texture_shader.vert');
         guiData.shaders.list[5].frag = guiData.shaders.list[5].frag ? guiData.shaders.list[5].frag : fileLoader.getText('blinn_phong_texture_shader.frag');
-        guiData.shaders.list[6].vert = guiData.shaders.list[6].vert ? guiData.shaders.list[6].vert : fileLoader.getText('nodemo.vert');
-        guiData.shaders.list[6].frag = guiData.shaders.list[6].frag ? guiData.shaders.list[6].frag : fileLoader.getText('nodemo.frag');
+        //guiData.shaders.list[6].vert = guiData.shaders.list[6].vert ? guiData.shaders.list[6].vert : fileLoader.getText('nodemo.vert');
+        //guiData.shaders.list[6].frag = guiData.shaders.list[6].frag ? guiData.shaders.list[6].frag : fileLoader.getText('nodemo.frag');
 
         models.vert.setValue(guiData.shaders.list[guiData.shaders.shader].vert);
         models.frag.setValue(guiData.shaders.list[guiData.shaders.shader].frag);
