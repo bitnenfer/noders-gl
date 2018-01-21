@@ -201,7 +201,15 @@ function startApp(models)
 
 
     shaderFolder.add(guiData.shaders, 'shader', guiData.shaders.names).onFinishChange(function (value) { window.run(); });
-    shaderFolder.add(guiData.shaders, 'postprocess').onFinishChange(function (value) { window.run(); });
+    shaderFolder.add(guiData.shaders, 'postprocess').onFinishChange(function (value) { 
+        if(!value) 
+        {
+            document.getElementById('post-tab').style.visibility = 'hidden';
+            
+        } 
+        else document.getElementById('post-tab').style.visibility = 'visible';
+        window.run(); 
+    });
 
     modelFolder.add(guiData.model, 'model', guiData.model.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
     modelFolder.add(window, 'resetTransform');
