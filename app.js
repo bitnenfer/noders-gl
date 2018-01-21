@@ -205,7 +205,14 @@ function startApp(models)
         if(!value) 
         {
             document.getElementById('post-tab').style.visibility = 'hidden';
-            
+            if (models.editor.getModel() === models.post)
+            {
+                models.editor.setModel(models.frag); 
+                models.editor.focus(); 
+                document.getElementById('frag-tab').className = 'tab active';
+                document.getElementById('vert-tab').className = 'tab';
+                document.getElementById('post-tab').className = 'tab';
+            }
         } 
         else document.getElementById('post-tab').style.visibility = 'visible';
         window.run(); 
