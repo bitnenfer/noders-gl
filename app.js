@@ -23,7 +23,7 @@ function startApp(models)
 
     const msView = document.getElementById('ms-view');
     const msViewAvg = document.getElementById('ms-view-avg');
-    const audio = new Audio('data/media/hbf.mp3');
+    const audio = new Audio('data/media/skr.mp3');
     const audioContext = new AudioContext();
     const audioSource = audioContext.createMediaElementSource(audio);
     const audioAnalyser = audioContext.createAnalyser();
@@ -36,10 +36,22 @@ function startApp(models)
     const bgFolder = gui.addFolder('Background');
     const fileLoader = new FileLoader();
     const errorOutput = document.getElementById('error-output');
-    const renderer = new NGL.Renderer({ canvas: document.getElementById('canvas'), depth: true });
+    const renderer = new NGL.Renderer({ canvas: document.getElementById('canvas'), depth: true, antialias: true });
     const testVertexBuffer = new NGL.VertexBuffer({
         renderer: renderer,
         data: new Float32Array(1000)
+    });
+    const postVertexBuffer = new NGL.VertexBuffer({
+        renderer: renderer,
+        data: new Float32Array([
+            -1, 1, -1, -7, 7, 1
+        ])
+    });
+    const postProcessTarget = new  NGL.RenderTarget({
+        renderer: renderer,
+        width: 512,
+        height: 512,
+        useDepthStencil: true
     });
     let fftTexture = null;
     let pipeline = new NGL.Pipeline({
@@ -70,6 +82,8 @@ function startApp(models)
             },
         }
     });
+    let postProcessPipeline = null;
+    let noiseTexture = null;
     const modelBuffers = [];
     const textures = [];
     const modelQuat = quat.create();
@@ -83,7 +97,7 @@ function startApp(models)
     const projection = mat4.create();
     const camera = new OrbitalCameraControl(view, 5, renderer.canvas);
     const guiDataJSON = localStorage.getItem('guiData');
-    const guiData = guiDataJSON ? JSON.parse(guiDataJSON) : {
+    const guiData = /*guiDataJSON ? JSON.parse(guiDataJSON) :*/ {
         color: [49,59,78],
         diffuse: [128, 128, 128],
         ambient: [51, 51, 51],
@@ -116,6 +130,7 @@ function startApp(models)
         fontSize: 15,
         theme: 'vs-dark',
         shaders: {
+            postprocess: false,
             shader: 0,
             currentShader: 0,
             list: [ 
@@ -136,8 +151,7 @@ function startApp(models)
                 'Texture': 2,
                 'Diffuse Shading': 3,
                 'Blinn-Phong Shading': 4,
-                'Blinn-Phong + Texture Shading': 5,
-                '[NODEMO]': 6
+                'Blinn-Phong + Texture Shading': 5
             }
         },
         media: {
@@ -187,6 +201,7 @@ function startApp(models)
 
 
     shaderFolder.add(guiData.shaders, 'shader', guiData.shaders.names).onFinishChange(function (value) { window.run(); });
+    shaderFolder.add(guiData.shaders, 'postprocess').onFinishChange(function (value) { window.run(); });
 
     modelFolder.add(guiData.model, 'model', guiData.model.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
     modelFolder.add(window, 'resetTransform');
@@ -225,6 +240,7 @@ function startApp(models)
     fileLoader.addImage('marble', 'data/textures/marble.jpg');
     fileLoader.addImage('rock-diffuse', 'data/textures/rocks_01_dif.jpg');
     fileLoader.addImage('rock-normal', 'data/textures/rocks_01_nm.jpg');
+    fileLoader.addImage('noise', 'data/textures/noise.jpg');
 
     // shaders
     fileLoader.addText('simple_shader.frag', 'data/shaders/simple_shader.frag');
@@ -241,6 +257,8 @@ function startApp(models)
     fileLoader.addText('blinn_phong_texture_shader.vert', 'data/shaders/blinn_phong_texture_shader.vert');
     fileLoader.addText('nodemo.frag', 'data/shaders/nodemo.frag');
     fileLoader.addText('nodemo.vert', 'data/shaders/nodemo.vert');
+    fileLoader.addText('postprocess_shader.frag', 'data/shaders/postprocess_shader.frag');
+    fileLoader.addText('postprocess_shader.vert', 'data/shaders/postprocess_shader.vert');
 
     fileLoader.process(function run () {
 
@@ -317,6 +335,11 @@ function startApp(models)
             source: null
         });
 
+        noiseTexture = new NGL.Texture2D({
+            renderer: renderer,
+            source: fileLoader.getImage('noise')
+        });
+
         guiData.shaders.list[0].vert = guiData.shaders.list[0].vert ? guiData.shaders.list[0].vert : fileLoader.getText('simple_shader.vert');
         guiData.shaders.list[0].frag = guiData.shaders.list[0].frag ? guiData.shaders.list[0].frag : fileLoader.getText('simple_shader.frag');
         guiData.shaders.list[1].vert = guiData.shaders.list[1].vert ? guiData.shaders.list[1].vert : fileLoader.getText('mvp_shader.vert');
@@ -329,11 +352,12 @@ function startApp(models)
         guiData.shaders.list[4].frag = guiData.shaders.list[4].frag ? guiData.shaders.list[4].frag : fileLoader.getText('blinn_phong_shader.frag');
         guiData.shaders.list[5].vert = guiData.shaders.list[5].vert ? guiData.shaders.list[5].vert : fileLoader.getText('blinn_phong_texture_shader.vert');
         guiData.shaders.list[5].frag = guiData.shaders.list[5].frag ? guiData.shaders.list[5].frag : fileLoader.getText('blinn_phong_texture_shader.frag');
-        guiData.shaders.list[6].vert = guiData.shaders.list[6].vert ? guiData.shaders.list[6].vert : fileLoader.getText('nodemo.vert');
-        guiData.shaders.list[6].frag = guiData.shaders.list[6].frag ? guiData.shaders.list[6].frag : fileLoader.getText('nodemo.frag');
+        guiData.shaders.list[6].vert = guiData.shaders.list[6].vert ? guiData.shaders.list[6].vert : fileLoader.getText('postprocess_shader.vert');
+        guiData.shaders.list[6].frag = guiData.shaders.list[6].frag ? guiData.shaders.list[6].frag : fileLoader.getText('postprocess_shader.frag');
 
         models.vert.setValue(guiData.shaders.list[guiData.shaders.shader].vert);
         models.frag.setValue(guiData.shaders.list[guiData.shaders.shader].frag);
+        models.post.setValue(guiData.shaders.list[6].frag);
 
         window.run();
 
@@ -408,15 +432,44 @@ function startApp(models)
             pipeline.setUniform('uResolution', NGL.UniformType.FLOAT_2, renderer.canvas.width, renderer.canvas.height);
             pipeline.setUniform('uLightDir', NGL.UniformType.FLOAT_3, guiData.direction.x, guiData.direction.y, guiData.direction.z);
             pipeline.setUniform('uCameraPos', NGL.UniformType.FLOAT_VECTOR_3, viewPos);
+            pipeline.setUniform('uNoise', NGL.UniformType.INT_1, 2);
 
             renderer.setTexture2D(textures[guiData.texture.texture], 0);
             renderer.setTexture2D(fftTexture, 1);
+            renderer.setTexture2D(noiseTexture, 2);
 
-            renderer.beginPass(modelBuffers[guiData.model.model].vertexBuffer, pipeline);
-            renderer.setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
-            renderer.clearTarget(NGL.ClearTarget.ALL);
-            renderer.draw(0, modelBuffers[guiData.model.model].vertexCount);
-            renderer.endPass();
+            if (!guiData.shaders.postprocess || (postProcessPipeline !== null && !postProcessPipeline.isValid))
+            {
+                renderer.beginPass(modelBuffers[guiData.model.model].vertexBuffer, pipeline);
+                renderer.setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
+                renderer.clearTarget(NGL.ClearTarget.ALL);
+                renderer.draw(0, modelBuffers[guiData.model.model].vertexCount);
+                renderer.endPass();
+            }
+            else
+            {
+                renderer.beginPass(modelBuffers[guiData.model.model].vertexBuffer, pipeline, postProcessTarget);
+                renderer.setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
+                renderer.clearTarget(NGL.ClearTarget.ALL);
+                renderer.draw(0, modelBuffers[guiData.model.model].vertexCount);
+                renderer.endPass();
+
+                postProcessPipeline.setUniform('uTime', NGL.UniformType.FLOAT_1, frameTime * 0.001);
+                postProcessPipeline.setUniform('uResolution', NGL.UniformType.FLOAT_2, renderer.canvas.width, renderer.canvas.height);
+                postProcessPipeline.setUniform('uSampler', NGL.UniformType.INT_1, 0);
+                postProcessPipeline.setUniform('uFFT', NGL.UniformType.INT_1, 1);
+                postProcessPipeline.setUniform('uNoise', NGL.UniformType.INT_1, 2);
+                postProcessPipeline.setUniform('uRT', NGL.UniformType.INT_1, 3);
+
+                renderer.setTexture2D(postProcessTarget.texture, 3);
+
+                renderer.beginPass(postVertexBuffer, postProcessPipeline);
+                renderer.setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
+                renderer.clearTarget(NGL.ClearTarget.ALL);
+                renderer.draw(0, 3);
+                renderer.endPass();
+            }
+
         }
 
         camera.update();
@@ -446,6 +499,7 @@ function startApp(models)
 
         guiData.shaders.list[guiData.shaders.currentShader].vert = models.vert.getValue();
         guiData.shaders.list[guiData.shaders.currentShader].frag = models.frag.getValue();
+        guiData.shaders.list[6].frag = models.post.getValue();
 
         if (guiData.shaders.currentShader !== guiData.shaders.shader)
         {
@@ -483,7 +537,6 @@ function startApp(models)
             }
         });
 
-
         if (pipeline.errorLog.length > 0)
         {
             errorOutput.innerHTML = pipeline.errorLog.join('\n');
@@ -501,6 +554,55 @@ function startApp(models)
             errorOutput.className = 'noerror';
 
             renderer.lastPipeline = null;
+        }
+
+        if (guiData.shaders.postprocess)
+        {
+            if (postProcessPipeline === null)
+            {
+                postProcessPipeline = new NGL.Pipeline({
+                    renderer: renderer,
+                    vertexSize: Float32Array.BYTES_PER_ELEMENT * 2,
+                    vertShader: fileLoader.getText('postprocess_shader.vert'),
+                    fragShader: models.post.getValue(),
+                    attributes:  {
+                        'inPosition': {
+                            size: 2,
+                            type: NGL.AttribType.FLOAT,
+                            offset: Float32Array.BYTES_PER_ELEMENT * 0
+                        }
+                    }
+                });
+            }
+            else
+            {
+                postProcessPipeline.recompile({
+                    renderer: renderer,
+                    vertexSize: Float32Array.BYTES_PER_ELEMENT * 2,
+                    vertShader: fileLoader.getText('postprocess_shader.vert'),
+                    fragShader: models.post.getValue(),
+                    attributes:  {
+                        'inPosition': {
+                            size: 2,
+                            type: NGL.AttribType.FLOAT,
+                            offset: Float32Array.BYTES_PER_ELEMENT * 0
+                        }
+                    }
+                });
+            }
+
+            if (postProcessPipeline.errorLog.length > 0)
+            {
+                if (errorOutput.className !== 'goterror')
+                {
+                    errorOutput.innerHTML = 'Post-Process Shader Error:\n' + postProcessPipeline.errorLog.join('\n');
+                    errorOutput.className = 'goterror';
+                }
+                else
+                {
+                    errorOutput.innerHTML += '\nPost-Process Shader Error:\n' + postProcessPipeline.errorLog.join('\n');
+                }
+            }
         }
 
         localStorage.setItem('guiData', JSON.stringify(guiData));
