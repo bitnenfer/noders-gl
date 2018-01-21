@@ -97,7 +97,7 @@ function startApp(models)
     const projection = mat4.create();
     const camera = new OrbitalCameraControl(view, 5, renderer.canvas);
     const guiDataJSON = localStorage.getItem('guiData');
-    const guiData = /*guiDataJSON ? JSON.parse(guiDataJSON) :*/ {
+    const guiData = guiDataJSON ? JSON.parse(guiDataJSON) : {
         color: [49,59,78],
         diffuse: [128, 128, 128],
         ambient: [51, 51, 51],
@@ -189,15 +189,19 @@ function startApp(models)
 
     };
 
+    function SaveGUI()
+    {
+        localStorage.setItem('guiData', JSON.stringify(guiData));
+    }
 
-    bgFolder.addColor(guiData, 'color');
-    lightFolder.addColor(guiData, 'diffuse');
-    lightFolder.addColor(guiData, 'ambient');
-    lightFolder.addColor(guiData, 'specular');
-    lightFolder.add(guiData, 'shininess').min(16).max(1024);
-    lightDir.add(guiData.direction, 'x').step(0.01);
-    lightDir.add(guiData.direction, 'y').step(0.01);
-    lightDir.add(guiData.direction, 'z').step(0.01);
+    bgFolder.addColor(guiData, 'color').onFinishChange(SaveGUI);
+    lightFolder.addColor(guiData, 'diffuse').onFinishChange(SaveGUI);
+    lightFolder.addColor(guiData, 'ambient').onFinishChange(SaveGUI);
+    lightFolder.addColor(guiData, 'specular').onFinishChange(SaveGUI);
+    lightFolder.add(guiData, 'shininess').min(16).max(1024).onFinishChange(SaveGUI);
+    lightDir.add(guiData.direction, 'x').step(0.01).onFinishChange(SaveGUI);
+    lightDir.add(guiData.direction, 'y').step(0.01).onFinishChange(SaveGUI);
+    lightDir.add(guiData.direction, 'z').step(0.01).onFinishChange(SaveGUI);
 
 
     shaderFolder.add(guiData.shaders, 'shader', guiData.shaders.names).onFinishChange(function (value) { window.run(); });
@@ -355,6 +359,8 @@ function startApp(models)
             source: fileLoader.getImage('noise')
         });
 
+        noiseTexture.setWrapping(WebGLRenderingContext.REPEAT);
+
         guiData.shaders.list[0].vert = guiData.shaders.list[0].vert ? guiData.shaders.list[0].vert : fileLoader.getText('simple_shader.vert');
         guiData.shaders.list[0].frag = guiData.shaders.list[0].frag ? guiData.shaders.list[0].frag : fileLoader.getText('simple_shader.frag');
         guiData.shaders.list[1].vert = guiData.shaders.list[1].vert ? guiData.shaders.list[1].vert : fileLoader.getText('mvp_shader.vert');
@@ -373,6 +379,11 @@ function startApp(models)
         models.vert.setValue(guiData.shaders.list[guiData.shaders.shader].vert);
         models.frag.setValue(guiData.shaders.list[guiData.shaders.shader].frag);
         models.post.setValue(guiData.shaders.list[6].frag);
+
+        if (guiData.shaders.postprocess)
+        {
+            document.getElementById('post-tab').style.visibility = 'visible';
+        }
 
         window.run();
 
