@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8"/>
     <title>NodersGL - Editor</title>
     <script type="text/javascript" src="lib/file-loader.js"></script>
     <script type="text/javascript" src="lib/objpar.js"></script>
@@ -83,11 +84,25 @@
             image-rendering: optimize-contrast; 
             -ms-interpolation-mode: nearest-neighbor;
         }
+        html, body{
+          padding: 0;
+          margin: 0;
+        }
+
+        html{
+          height: 100%;
+          overflow: hidden;
+        }
+
         body
         {
-            background-color: #000000;
+            background: #000000;
+            background: -webkit-linear-gradient(to top, #434343, #000000);
+            background: linear-gradient(to top, #434343, #000000);
             color: #fff;
             font-family: Consolas, "Courier New", monospace;
+            min-height: 100%;
+
         }
         .wrapper {
             width: 1300px;

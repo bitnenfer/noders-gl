@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"postPr",
+				"postProcessTargets"
+			],
+			[
+				"post",
+				"postProcessTarget0"
+			],
+			[
+				"pos",
+				"postProcessTarget1"
+			],
+			[
 				"visi",
 				"visible"
 			],
@@ -34,18 +46,6 @@
 			[
 				"tex",
 				"textures"
-			],
-			[
-				"pos",
-				"postProcessTarget"
-			],
-			[
-				"post",
-				"postVertexBuffer"
-			],
-			[
-				"postPr",
-				"postProcessPipeline"
 			],
 			[
 				"sha",
@@ -523,8 +523,16 @@
 			"file": "app.js",
 			"settings":
 			{
-				"buffer_size": 28667,
+				"buffer_size": 30404,
 				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "data/shaders/postprocess_shader.vert",
+			"settings":
+			{
+				"buffer_size": 108,
 				"line_ending": "Windows"
 			}
 		},
@@ -532,7 +540,7 @@
 			"file": "data/shaders/postprocess_shader.frag",
 			"settings":
 			{
-				"buffer_size": 170,
+				"buffer_size": 1302,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -550,7 +558,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 4640,
+				"buffer_size": 4986,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -559,7 +567,16 @@
 			"file": "lib/noders-gl.js",
 			"settings":
 			{
-				"buffer_size": 22906,
+				"buffer_size": 23575,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "lib/file-loader.js",
+			"settings":
+			{
+				"buffer_size": 2473,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -630,7 +647,11 @@
 	},
 	"expanded_folders":
 	[
-		"/C/xampp/htdocs/noders-gl"
+		"/C/xampp/htdocs/noders-gl",
+		"/C/xampp/htdocs/noders-gl/data",
+		"/C/xampp/htdocs/noders-gl/data/shaders",
+		"/C/xampp/htdocs/noders-gl/lib",
+		"/C/xampp/htdocs/noders-gl/lib/dat.gui"
 	],
 	"file_history":
 	[
@@ -779,6 +800,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Controller",
+			"clearTarget",
+			"postProcessTarget",
 			"editor.",
 			"setValue",
 			"postprocess",
@@ -803,6 +827,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"postProcessTarget0",
 			"run"
 		],
 		"reverse": false,
@@ -823,15 +848,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 28667,
+						"buffer_size": 30404,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								15927,
-								15927
+								3792,
+								3792
 							]
 						],
 						"settings":
@@ -841,7 +866,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6224.0,
+						"translation.y": 1780.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -849,24 +874,24 @@
 				},
 				{
 					"buffer": 1,
-					"file": "data/shaders/postprocess_shader.frag",
-					"semi_transient": false,
+					"file": "data/shaders/postprocess_shader.vert",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 170,
+						"buffer_size": 108,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								161,
-								161
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -877,6 +902,34 @@
 				},
 				{
 					"buffer": 2,
+					"file": "data/shaders/postprocess_shader.frag",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1302,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1262,
+								1262
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "editor.js",
 					"semi_transient": false,
 					"settings":
@@ -906,20 +959,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4640,
+						"buffer_size": 4986,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4422,
-								4422
+								3294,
+								3294
 							]
 						],
 						"settings":
@@ -929,27 +982,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1707.0,
+						"translation.y": 1026.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "lib/noders-gl.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 22906,
+						"buffer_size": 23575,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								18617,
-								18617
+								20141,
+								20146
 							]
 						],
 						"settings":
@@ -959,10 +1012,40 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 9939.0,
+						"translation.y": 10796.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "lib/file-loader.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2473,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1574,
+								1574
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 810.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]

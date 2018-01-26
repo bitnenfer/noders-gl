@@ -47,12 +47,19 @@ function startApp(models)
             -1, 1, -1, -7, 7, 1
         ])
     });
-    const postProcessTarget = new  NGL.RenderTarget({
+    const postProcessTarget0 = new  NGL.RenderTarget({
         renderer: renderer,
         width: 512,
         height: 512,
         useDepthStencil: true
     });
+    const postProcessTarget1 = new  NGL.RenderTarget({
+        renderer: renderer,
+        width: 512,
+        height: 512,
+        useDepthStencil: true
+    });
+    const postProcessTargets = [postProcessTarget0, postProcessTarget1];
     let fftTexture = null;
     let pipeline = new NGL.Pipeline({
         renderer: renderer,
@@ -98,10 +105,10 @@ function startApp(models)
     const camera = new OrbitalCameraControl(view, 5, renderer.canvas);
     const guiDataJSON = localStorage.getItem('guiData');
     const guiData = guiDataJSON ? JSON.parse(guiDataJSON) : {
-        color: [49,59,78],
-        diffuse: [128, 128, 128],
-        ambient: [51, 51, 51],
-        specular: [255, 255, 255],
+        color: [98,157,210],
+        diffuse: [143,138,118],
+        ambient: [110,97,79],
+        specular:[0,165,255],
         shininess: 256,
         direction: {x: 0.5, y: 0.5, z: 0.5},
         model: {
@@ -131,6 +138,12 @@ function startApp(models)
         theme: 'vs-dark',
         shaders: {
             postprocess: false,
+            kernel: [
+                0, 0, 0,
+                0, 1, 0,
+                0, 0, 0
+            ],
+            passCount: 1,
             shader: 0,
             currentShader: 0,
             list: [ 
@@ -221,6 +234,7 @@ function startApp(models)
         else document.getElementById('post-tab').style.visibility = 'visible';
         window.run(); 
     });
+    shaderFolder.add(guiData.shaders, 'passCount').min(1).max(4).step(1);
 
     modelFolder.add(guiData.model, 'model', guiData.model.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
     modelFolder.add(window, 'resetTransform');
@@ -259,7 +273,7 @@ function startApp(models)
     fileLoader.addImage('marble', 'data/textures/marble.jpg');
     fileLoader.addImage('rock-diffuse', 'data/textures/rocks_01_dif.jpg');
     fileLoader.addImage('rock-normal', 'data/textures/rocks_01_nm.jpg');
-    fileLoader.addImage('noise', 'data/textures/noise.jpg');
+    fileLoader.addImage('noise', 'data/textures/noise2.jpg');
 
     // shaders
     fileLoader.addText('simple_shader.frag', 'data/shaders/simple_shader.frag');
@@ -474,9 +488,15 @@ function startApp(models)
             }
             else
             {
-                renderer.beginPass(modelBuffers[guiData.model.model].vertexBuffer, pipeline, postProcessTarget);
-                renderer.setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
-                renderer.clearTarget(NGL.ClearTarget.ALL);
+                const passCount = guiData.shaders.passCount;
+                let passIndex = 1;
+
+                postProcessTarget0.setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
+                postProcessTarget0.clear(NGL.ClearTarget.ALL);
+                postProcessTarget1.setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
+                postProcessTarget1.clear(NGL.ClearTarget.ALL);
+
+                renderer.beginPass(modelBuffers[guiData.model.model].vertexBuffer, pipeline, postProcessTargets[0]);
                 renderer.draw(0, modelBuffers[guiData.model.model].vertexCount);
                 renderer.endPass();
 
@@ -486,9 +506,22 @@ function startApp(models)
                 postProcessPipeline.setUniform('uFFT', NGL.UniformType.INT_1, 1);
                 postProcessPipeline.setUniform('uNoise', NGL.UniformType.INT_1, 2);
                 postProcessPipeline.setUniform('uRT', NGL.UniformType.INT_1, 3);
+                postProcessPipeline.setUniform('uPassCount', NGL.UniformType.INT_1, passCount);
 
-                renderer.setTexture2D(postProcessTarget.texture, 3);
-
+                for (let index = 1; index < passCount; ++index)
+                {
+                    postProcessPipeline.setUniform('uPassIndex', NGL.UniformType.INT_1, index - 1);
+                    renderer.setTexture2D(postProcessTargets[passIndex ^ 1].texture, 3);
+                    postProcessTargets[passIndex].setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
+                    postProcessTargets[passIndex].clear(NGL.ClearTarget.ALL);
+                    renderer.beginPass(postVertexBuffer, postProcessPipeline, postProcessTargets[passIndex]);
+                    renderer.draw(0, 3);
+                    renderer.endPass();
+                    passIndex = (passIndex ^ 1);
+                }
+                
+                postProcessPipeline.setUniform('uPassIndex', NGL.UniformType.INT_1, passCount - 1);
+                renderer.setTexture2D(postProcessTargets[passIndex ^ 1].texture, 3);
                 renderer.beginPass(postVertexBuffer, postProcessPipeline);
                 renderer.setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
                 renderer.clearTarget(NGL.ClearTarget.ALL);
