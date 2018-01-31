@@ -37,13 +37,17 @@ vec3 getColor(sampler2D texture, vec2 texCoord, mat3 kernel, float sampleSize);
 
 void main()
 {
-    const float sampleSize = 1.0; 
+    float sampleSize = sin(texture2D(uFFT, vec2(0.0))).x * 10.0; 
     vec2 uv = gl_FragCoord.xy / uResolution;
     
-    gl_FragColor = vec4(getColor(uRT, uv, identity, sampleSize), 1.0);
-    //gl_FragColor = vec4(getColor(uRT, uv, gaussian, sampleSize), 1.0);
-    //gl_FragColor = vec4(getColor(uRT, uv, edges, sampleSize), 1.0);
-    //gl_FragColor = vec4(getColor(uRT, uv, sharpen, sampleSize), 1.0);
+    gl_FragColor = vec4(getColor(uRT, uv, edges, sampleSize), 1.0);
+    if (length(uv - 0.5) > 0.2 - abs(sin(sampleSize * 0.36)) * 0.25 && length(uv - 0.5) < 0.2 + abs(sin(sampleSize * 0.33)) * 0.25)
+        gl_FragColor += vec4(
+            max(sin(uTime + sampleSize / 10.0), 0.5), 
+            max(cos(uTime + sampleSize / 5.0), 0.5), 
+            max(sin(uTime + -sampleSize / 2.0), 0.5),
+            1.0            
+        );
 }
 
 vec3 getColor(sampler2D texture, vec2 texCoord, mat3 kernel, float sampleSize)

@@ -27,6 +27,7 @@ function startApp(models)
     const audioContext = new AudioContext();
     const audioSource = audioContext.createMediaElementSource(audio);
     const audioAnalyser = audioContext.createAnalyser();
+    const audioGain = audioContext.createGain();
     const gui = new dat.GUI({closed: true, closeOnTop: true});
     const shaderFolder = gui.addFolder('Shader');
     const modelFolder = gui.addFolder('Model');
@@ -106,10 +107,10 @@ function startApp(models)
     const guiDataJSON = localStorage.getItem('guiData');
     const guiData = guiDataJSON ? JSON.parse(guiDataJSON) : {
         color: [98,157,210],
-        diffuse: [143,138,118],
-        ambient: [110,97,79],
-        specular:[0,165,255],
-        shininess: 256,
+        diffuse: [255,255,255],
+        ambient: [30,34,35],
+        specular:[255,255,255],
+        shininess: 0,
         direction: {x: 0.5, y: 0.5, z: 0.5},
         model: {
             model: 0,
@@ -138,6 +139,12 @@ function startApp(models)
         theme: 'vs-dark',
         shaders: {
             postprocess: false,
+            postprocessId: 6,
+            currentPostprocessId: 6,
+            postprocessNames: {
+                'Convolution Matrix': 6,
+                'Nodemo': 9
+            },
             kernel: [
                 0, 0, 0,
                 0, 1, 0,
@@ -160,15 +167,16 @@ function startApp(models)
             ],
             names: {
                 'Simple': 0,
-                '3D Projection': 1,
                 'Texture': 2,
+                '3D Projection': 1,
                 'Diffuse Shading': 3,
-                'Blinn-Phong Shading': 4,
-                'Blinn-Phong + Texture Shading': 5
+                'Playground': 7,
+                'NODEMO': 8
             }
         },
         media: {
-            play: false
+            play: false,
+            volume: 0.02
         }
     };
     let lastTime = 0;
@@ -210,14 +218,15 @@ function startApp(models)
     bgFolder.addColor(guiData, 'color').onFinishChange(SaveGUI);
     lightFolder.addColor(guiData, 'diffuse').onFinishChange(SaveGUI);
     lightFolder.addColor(guiData, 'ambient').onFinishChange(SaveGUI);
-    lightFolder.addColor(guiData, 'specular').onFinishChange(SaveGUI);
-    lightFolder.add(guiData, 'shininess').min(16).max(1024).onFinishChange(SaveGUI);
+    //lightFolder.addColor(guiData, 'specular').onFinishChange(SaveGUI);
+    //lightFolder.add(guiData, 'shininess').min(16).max(1024).onFinishChange(SaveGUI);
     lightDir.add(guiData.direction, 'x').step(0.01).onFinishChange(SaveGUI);
     lightDir.add(guiData.direction, 'y').step(0.01).onFinishChange(SaveGUI);
     lightDir.add(guiData.direction, 'z').step(0.01).onFinishChange(SaveGUI);
 
 
     shaderFolder.add(guiData.shaders, 'shader', guiData.shaders.names).onFinishChange(function (value) { window.run(); });
+    shaderFolder.add(guiData.shaders, 'postprocessId', guiData.shaders.postprocessNames).onFinishChange(function (value) { window.run(); });
     shaderFolder.add(guiData.shaders, 'postprocess').onFinishChange(function (value) { 
         if(!value) 
         {
@@ -269,7 +278,7 @@ function startApp(models)
     fileLoader.addText('teapot', 'data/meshes/teapot.obj');
     fileLoader.addText('torus', 'data/meshes/serapis.obj');
 
-    fileLoader.addImage('basic', 'data/textures/texture.png');
+    fileLoader.addImage('basic', 'data/textures/texture_noders.png');
     fileLoader.addImage('marble', 'data/textures/marble.jpg');
     fileLoader.addImage('rock-diffuse', 'data/textures/rocks_01_dif.jpg');
     fileLoader.addImage('rock-normal', 'data/textures/rocks_01_nm.jpg');
@@ -288,10 +297,14 @@ function startApp(models)
     fileLoader.addText('blinn_phong_shader.vert', 'data/shaders/blinn_phong_shader.vert');
     fileLoader.addText('blinn_phong_texture_shader.frag', 'data/shaders/blinn_phong_texture_shader.frag');
     fileLoader.addText('blinn_phong_texture_shader.vert', 'data/shaders/blinn_phong_texture_shader.vert');
-    fileLoader.addText('nodemo.frag', 'data/shaders/nodemo.frag');
-    fileLoader.addText('nodemo.vert', 'data/shaders/nodemo.vert');
+    fileLoader.addText('playground.frag', 'data/shaders/playground.frag');
+    fileLoader.addText('playground.vert', 'data/shaders/playground.vert');
     fileLoader.addText('postprocess_shader.frag', 'data/shaders/postprocess_shader.frag');
     fileLoader.addText('postprocess_shader.vert', 'data/shaders/postprocess_shader.vert');
+    fileLoader.addText('nodemo_post.frag', 'data/shaders/nodemo_post.frag');
+    fileLoader.addText('nodemo_post.vert', 'data/shaders/postprocess_shader.vert');
+    fileLoader.addText('nodemo.frag', 'data/shaders/nodemo.frag');
+    fileLoader.addText('nodemo.vert', 'data/shaders/nodemo.vert');
 
     fileLoader.process(function run () {
 
@@ -389,10 +402,16 @@ function startApp(models)
         guiData.shaders.list[5].frag = guiData.shaders.list[5].frag ? guiData.shaders.list[5].frag : fileLoader.getText('blinn_phong_texture_shader.frag');
         guiData.shaders.list[6].vert = guiData.shaders.list[6].vert ? guiData.shaders.list[6].vert : fileLoader.getText('postprocess_shader.vert');
         guiData.shaders.list[6].frag = guiData.shaders.list[6].frag ? guiData.shaders.list[6].frag : fileLoader.getText('postprocess_shader.frag');
+        guiData.shaders.list[7].vert = guiData.shaders.list[7].vert ? guiData.shaders.list[7].vert : fileLoader.getText('playground.vert');
+        guiData.shaders.list[7].frag = guiData.shaders.list[7].frag ? guiData.shaders.list[7].frag : fileLoader.getText('playground.frag');
+        guiData.shaders.list[8].vert = guiData.shaders.list[8].vert ? guiData.shaders.list[8].vert : fileLoader.getText('nodemo.vert');
+        guiData.shaders.list[8].frag = guiData.shaders.list[8].frag ? guiData.shaders.list[8].frag : fileLoader.getText('nodemo.frag');
+        guiData.shaders.list[9].vert = guiData.shaders.list[9].vert ? guiData.shaders.list[9].vert : fileLoader.getText('nodemo_post.vert');
+        guiData.shaders.list[9].frag = guiData.shaders.list[9].frag ? guiData.shaders.list[9].frag : fileLoader.getText('nodemo_post.frag');
 
         models.vert.setValue(guiData.shaders.list[guiData.shaders.shader].vert);
         models.frag.setValue(guiData.shaders.list[guiData.shaders.shader].frag);
-        models.post.setValue(guiData.shaders.list[6].frag);
+        models.post.setValue(guiData.shaders.list[guiData.shaders.postprocessId].frag);
 
         if (guiData.shaders.postprocess)
         {
@@ -406,14 +425,34 @@ function startApp(models)
 
     // Setup Audio Analyser
     audioSource.connect(audioContext.destination);
+    audioSource.connect(audioGain);
+    audioGain.connect(audioContext.destination);
+
+
     // Set the size of the fast fourier transform 
     audioAnalyser.fftSize = 256;
     audioSource.connect(audioAnalyser);
     audio.loop = true;
 
+    audioGain.gain.value = guiData.media.volume;
+    audio.volume = guiData.media.volume;
+
     const mediaFolder = gui.addFolder('Media');
 
-    mediaFolder.add(guiData.media, 'play').onFinishChange(function (value) { value ? audio.play() : audio.pause(); });
+    mediaFolder.add(guiData.media, 'play').onFinishChange(function (value) {
+        if (value)
+        {
+            audio.play();
+        }
+        else
+        {
+            audio.pause();
+        }
+    });
+    mediaFolder.add(guiData.media, 'volume').min(0).max(0.2).step(0.01).onChange(function (value) {
+        audioGain.gain.value = value;
+        audio.volume = value;
+    });
 
     let avgTime = 0.0;
     let frameCount = 0;
@@ -531,6 +570,8 @@ function startApp(models)
 
         }
 
+        camera.active = (!(parseInt(guiData.shaders.currentShader) === 2 || parseInt(guiData.shaders.currentShader) === 0));
+
         camera.update();
         requestAnimationFrame(renderScene);
         msView.innerHTML = 'frame time: ' + deltaTime.toFixed(2) + 'ms';
@@ -558,7 +599,7 @@ function startApp(models)
 
         guiData.shaders.list[guiData.shaders.currentShader].vert = models.vert.getValue();
         guiData.shaders.list[guiData.shaders.currentShader].frag = models.frag.getValue();
-        guiData.shaders.list[6].frag = models.post.getValue();
+        guiData.shaders.list[guiData.shaders.currentPostprocessId].frag = models.post.getValue();
 
         if (guiData.shaders.currentShader !== guiData.shaders.shader)
         {
@@ -566,6 +607,13 @@ function startApp(models)
             models.frag.setValue(guiData.shaders.list[guiData.shaders.shader].frag);
             guiData.shaders.currentShader = guiData.shaders.shader;
         }
+
+        if (guiData.shaders.currentPostprocessId !== guiData.shaders.postprocessId)
+        {
+            models.post.setValue(guiData.shaders.list[guiData.shaders.postprocessId].frag);
+            guiData.shaders.currentPostprocessId = guiData.shaders.postprocessId;
+        }
+
 
         const start = performance.now();
         pipeline.recompile({
@@ -665,7 +713,7 @@ function startApp(models)
         }
 
         localStorage.setItem('guiData', JSON.stringify(guiData));
-
+        console.log(guiData.shaders.currentShader);
     };
 
     window.onkeydown = function (evt)
