@@ -47,6 +47,7 @@ void main()
     float speed = 1.0;
     float noisePow = 2.0;
     float noiseScale = 2.0;
+    vec2 range = vec2(0.497, 0.5) - 0.2;
 
     if (uMediaTime < 26.5 || uMediaTime > 123.0) 
     {
@@ -55,9 +56,12 @@ void main()
         speed *= 0.1;
         noisePow = 0.2;
         noiseScale = 1.0;
+        range.x -= cos(sin(uMediaTime) + wave * 20.0) * length(0.5 - uv.x) * 0.05;
+        range.y += cos(sin(uMediaTime) + wave * 20.0) * length(0.5 - uv.x) * 0.05;
     }
     else
     {
+        range *= 0.0;
         if ((uMediaTime > 53.5 && uMediaTime < 81.5)||
             (uMediaTime > 94.5 && uMediaTime < 122.5))
         {
@@ -70,7 +74,11 @@ void main()
 
     if (uPassIndex < 1)
     {
-        gl_FragColor = vec4(getColor(uRT, uv, edges, sampleSize), 1.0);
+        if (uv.y > range.x && uv.y < range.y)
+        {
+            gl_FragColor = vec4(0.2, 0.0, 1.0, 1.0) * (0.2 - pow(distance(uv, vec2(0.5)), 2.0));
+        }
+        gl_FragColor += vec4(getColor(uRT, uv, edges, sampleSize), 1.0);
     }
     else
     {
@@ -78,8 +86,8 @@ void main()
         return;
     }
 
-    if (length(uv - 0.5) > 0.5 - max(abs(sin(sampleSize * 0.36)) * 0.25, 0.15) &&
-        length(uv - 0.5) < 0.2 + abs(sin(wave)) * 0.22)
+    if (length(uv - 0.5) > 0.40 - max(abs(sin(fft)) * 0.25, 0.05) &&
+        length(uv - 0.5) < 0.2 + abs(sin(wave + fft)) * 0.22)
     {
 
          gl_FragColor +=  vec4(
@@ -89,7 +97,7 @@ void main()
             1.0        
         );
     }
-    else if (length(uv - vec2(0.5)) < 0.3 - min(abs(sin(sampleSize * 0.2)) * 0.3, 0.1))
+    else if (length(uv - vec2(0.5)) < 0.23 - min(abs(sin(fft)) * 0.3, 0.1))
     {
         gl_FragColor += pow(noiseTex.x, noisePow) * vec4(
            0.5 *uv.y + 0.1 * cos(sin(wave * 10.5)),
