@@ -176,7 +176,8 @@ function startApp(models)
         },
         media: {
             play: false,
-            volume: 0.02
+            volume: 0.2,
+            time: 0.0
         }
     };
     let lastTime = 0;
@@ -448,17 +449,32 @@ function startApp(models)
         {
             audio.pause();
         }
-    });
+        console.log(audio.currentTime);
+    }).listen();
     mediaFolder.add(guiData.media, 'volume').min(0).max(0.2).step(0.01).onChange(function (value) {
         audioGain.gain.value = value;
         audio.volume = value;
     });
+    mediaFolder.add(guiData.media, 'time').min(0).max(1.0).step(0.01).onChange(function (value) {
+        audio.currentTime = audio.duration * value;
+        if (audio.paused) audio.play();
+        
+    }).onFinishChange(function (value) {
+        if (!guiData.media.play && !audio.paused) audio.pause();
+    }).listen();
 
     let avgTime = 0.0;
     let frameCount = 0;
 
     function renderScene(frameTime)
     {
+        guiData.media.time = audio.currentTime / audio.duration;
+
+        if (guiData.media.time >= 1.0)
+        {
+            guiData.media.play = false;
+        }
+
         const deltaTime = frameTime - lastTime;
         lastTime = frameTime;
 
@@ -467,7 +483,7 @@ function startApp(models)
 
         if (pipeline.isValid)
         {
-            if (guiData.media.play)
+            if (!audio.paused)
             {
                 const audioData = new Uint8Array(audioAnalyser.frequencyBinCount);
                 audioAnalyser.getByteFrequencyData(audioData);

@@ -5,6 +5,7 @@ uniform sampler2D uNoise;
 uniform sampler2D uFFT;
 uniform vec2 uResolution;
 uniform float uTime;
+uniform float uMediaTime;
 
 void main()
 {
@@ -13,7 +14,7 @@ void main()
     vec2 pos = gl_FragCoord.xy / uResolution; 
     float wave = texture2D(uFFT, vec2(0.2 + pos.x * 0.4)).x;
     float fft = texture2D(uFFT, vec2(0.0)).x;
-    vec4 logo = texture2D(uSampler, pos * 0.35 + wave * 0.05 * vec2(sin(pos.y + uTime), cos(pos.x + uTime)));
+    vec4 logo = texture2D(uSampler, pos * 0.35 + wave * 0.05 * vec2(sin(pos.y + uMediaTime), cos(pos.x + uMediaTime)));
     vec2 range = vec2(0.49, 0.5) - 0.2;
     float radius = 0.3 + abs(sin(fft * 2.0)) * 0.5;
 
