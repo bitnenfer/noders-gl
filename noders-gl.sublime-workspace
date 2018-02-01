@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"curren",
+				"currentTime"
+			],
+			[
+				"FLOA",
+				"FLOAT_1"
+			],
+			[
 				"post",
 				"postprocessId"
 			],
@@ -506,24 +514,16 @@
 			[
 				"scrol",
 				"scrollFactorX"
-			],
-			[
-				"gBu",
-				"gBufferColorTex"
-			],
-			[
-				"gbuf",
-				"gBufferColorTex"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "data/shaders/playground.frag",
+			"file": "app.js",
 			"settings":
 			{
-				"buffer_size": 295,
+				"buffer_size": 33089,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -532,7 +532,7 @@
 			"file": "data/shaders/nodemo.frag",
 			"settings":
 			{
-				"buffer_size": 1045,
+				"buffer_size": 984,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -541,26 +541,16 @@
 			"file": "data/shaders/nodemo_post.frag",
 			"settings":
 			{
-				"buffer_size": 2322,
-				"encoding": "UTF-8",
-				"line_ending": "Windows",
-				"name": "precision mediump float;"
-			}
-		},
-		{
-			"file": "app.js",
-			"settings":
-			{
-				"buffer_size": 32891,
+				"buffer_size": 3173,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "data/shaders/playground.vert",
+			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 111,
+				"buffer_size": 5034,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -633,12 +623,18 @@
 	[
 		"/C/xampp/htdocs/noders-gl",
 		"/C/xampp/htdocs/noders-gl/data",
-		"/C/xampp/htdocs/noders-gl/data/shaders"
+		"/C/xampp/htdocs/noders-gl/data/media",
+		"/C/xampp/htdocs/noders-gl/lib"
 	],
 	"file_history":
 	[
-		"/C/xampp/htdocs/noders-gl/data/shaders/nodemo.vert",
+		"/C/xampp/htdocs/noders-gl/lib/monaco-editor/dev/vs/basic-languages/src/cpp.js",
+		"/C/xampp/htdocs/noders-gl/data/shaders/playground.frag",
+		"/C/xampp/htdocs/noders-gl/data/shaders/nodemo.frag",
+		"/C/xampp/htdocs/noders-gl/data/shaders/nodemo_post.frag",
+		"/C/xampp/htdocs/noders-gl/app.js",
 		"/C/xampp/htdocs/noders-gl/data/shaders/playground.vert",
+		"/C/xampp/htdocs/noders-gl/data/shaders/nodemo.vert",
 		"/C/xampp/htdocs/noders-gl/data/shaders/diffuse_shader.frag",
 		"/C/xampp/htdocs/noders-gl/data/shaders/mvp_shader.vert",
 		"/C/xampp/htdocs/noders-gl/data/shaders/mvp_shader.frag",
@@ -656,12 +652,10 @@
 		"/C/xampp/htdocs/noders/data/shaders/postprocess_shader.vert",
 		"/C/xampp/htdocs/noders/lib/monaco-editor/dev/vs/basic-languages/src/cpp.js",
 		"/C/xampp/htdocs/noders-gl/lib/dat.gui/dat.gui.js",
-		"/C/xampp/htdocs/noders-gl/app.js",
 		"/C/xampp/htdocs/graphics3d/objpar.js",
 		"/C/xampp/htdocs/noders-gl/lib/objpar.js",
 		"/C/xampp/htdocs/noders-gl/lib/monaco-editor/dev/vs/loader.js",
 		"/C/xampp/htdocs/noders-gl/lib/monaco-editor/dev/vs/editor/editor.main.js",
-		"/C/xampp/htdocs/noders-gl/lib/monaco-editor/dev/vs/basic-languages/src/cpp.js",
 		"/C/xampp/htdocs/slimshader/app.js",
 		"/C/xampp/htdocs/js13kgames/code/shaders/entry.glsl",
 		"/C/xampp/htdocs/noders-gl/demos/sdf.html",
@@ -761,10 +755,7 @@
 		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/GeometryMask Example.js",
 		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/GeometryMask Example0.js",
 		"/C/xampp/htdocs/phaser/v3/src/display/mask/BitmapMask.js",
-		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/effect layer/custom-tint.js",
-		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/render pass/Plasma Mask.js",
-		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/particlerenderer/ParticleRenderer.js",
-		"/C/xampp/htdocs/phaser/v3/src/renderer/webgl/renderers/maskrenderer/MaskRenderer.js"
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/effect layer/custom-tint.js"
 	],
 	"find":
 	{
@@ -782,6 +773,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"fft",
+			"1024",
+			"512",
 			"postprocess",
 			"2",
 			"Controller",
@@ -823,32 +817,34 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "data/shaders/playground.frag",
+					"file": "app.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 295,
+						"buffer_size": 33089,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								290,
-								290
+								18323,
+								18323
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 5999.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
@@ -860,21 +856,21 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1045,
+						"buffer_size": 984,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								494,
-								494
+								984,
+								984
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax",
-							"tab_size": 2,
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -890,93 +886,58 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2322,
+						"buffer_size": 3173,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2322,
-								2322
+								2065,
+								2065
 							]
 						],
 						"settings":
 						{
-							"auto_name": "precision mediump float;",
 							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 532.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 3,
-					"file": "app.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 32891,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5634,
-								5634
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2354.0,
+						"translation.y": 925.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "data/shaders/playground.vert",
+					"buffer": 3,
+					"file": "index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 111,
+						"buffer_size": 5034,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								111,
-								111
+								4448,
+								4448
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1659.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -984,7 +945,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -999,18 +960,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.541024584441,
 			1.0
 		],
 		"rows":
@@ -1032,7 +986,7 @@
 	"project": "noders-gl.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1070,7 +1024,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 418.0,
+	"side_bar_width": 229.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

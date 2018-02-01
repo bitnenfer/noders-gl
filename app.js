@@ -23,7 +23,7 @@ function startApp(models)
 
     const msView = document.getElementById('ms-view');
     const msViewAvg = document.getElementById('ms-view-avg');
-    const audio = new Audio('data/media/skr.mp3');
+    const audio = new Audio('data/media/wh.mp3');
     const audioContext = new AudioContext();
     const audioSource = audioContext.createMediaElementSource(audio);
     const audioAnalyser = audioContext.createAnalyser();
@@ -430,9 +430,9 @@ function startApp(models)
 
 
     // Set the size of the fast fourier transform 
-    audioAnalyser.fftSize = 256;
+    audioAnalyser.fftSize = 1024;
     audioSource.connect(audioAnalyser);
-    audio.loop = true;
+    audio.loop = false;
 
     audioGain.gain.value = guiData.media.volume;
     audio.volume = guiData.media.volume;
@@ -512,6 +512,7 @@ function startApp(models)
             pipeline.setUniform('uLightDir', NGL.UniformType.FLOAT_3, guiData.direction.x, guiData.direction.y, guiData.direction.z);
             pipeline.setUniform('uCameraPos', NGL.UniformType.FLOAT_VECTOR_3, viewPos);
             pipeline.setUniform('uNoise', NGL.UniformType.INT_1, 2);
+            pipeline.setUniform('uMediaTime', NGL.UniformType.FLOAT_1, audio.currentTime);
 
             renderer.setTexture2D(textures[guiData.texture.texture], 0);
             renderer.setTexture2D(fftTexture, 1);
@@ -546,6 +547,7 @@ function startApp(models)
                 postProcessPipeline.setUniform('uNoise', NGL.UniformType.INT_1, 2);
                 postProcessPipeline.setUniform('uRT', NGL.UniformType.INT_1, 3);
                 postProcessPipeline.setUniform('uPassCount', NGL.UniformType.INT_1, passCount);
+                postProcessPipeline.setUniform('uMediaTime', NGL.UniformType.FLOAT_1, audio.currentTime);
 
                 for (let index = 1; index < passCount; ++index)
                 {
