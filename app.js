@@ -169,7 +169,7 @@ function startApp(models)
                 'Simple': 0,
                 'Texture': 2,
                 '3D Projection': 1,
-                'Diffuse Shading': 3,
+                //'Diffuse Shading': 3,
                 'Playground': 7,
                 'NODEMO': 8
             }

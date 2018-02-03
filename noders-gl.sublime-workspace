@@ -551,7 +551,7 @@
 			"file": "app.js",
 			"settings":
 			{
-				"buffer_size": 33643,
+				"buffer_size": 33645,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -632,8 +632,7 @@
 	"expanded_folders":
 	[
 		"/C/xampp/htdocs/noders-gl",
-		"/C/xampp/htdocs/noders-gl/data",
-		"/C/xampp/htdocs/noders-gl/data/shaders"
+		"/C/xampp/htdocs/noders-gl/data"
 	],
 	"file_history":
 	[
@@ -927,15 +926,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 33643,
+						"buffer_size": 33645,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								19488,
-								19488
+								5652,
+								5652
 							]
 						],
 						"settings":
@@ -945,7 +944,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5914.0,
+						"translation.y": 2745.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
