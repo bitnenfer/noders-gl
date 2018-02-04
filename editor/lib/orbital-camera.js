@@ -44,6 +44,8 @@ class OrbitalCameraControl {
         this._vec = vec3.create();
         this._mtx = mat4.create();
 
+        quat.rotateY(this._quat, 0.57);
+
         this.active = false;
 
 

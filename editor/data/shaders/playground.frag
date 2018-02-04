@@ -9,7 +9,7 @@ uniform float uTime;
 void main()
 {
     // range 0.0 to 1.0 fragment coord
-    vec2 pos = gl_FragCoord.xy / uResolution; 
+    vec2 pixelPos = gl_FragCoord.xy / uResolution; 
 
-    gl_FragColor = vec4(pos, 0.0, 1.0);
+    gl_FragColor = vec4(pixelPos, 0.0, 1.0);
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jugando con shaders en WebGL</title>
+    <script type="text/javascript" src="hash-parser.js"></script>
+    <script type="text/javascript" src="file-loader.js"></script>
+    <style type="text/css">
+        canvas {
+        }
+        body
+        {
+            text-align: center;
+            font-family: Verdana;
+            font-size: 10px;
+            background-color: #212121;
+        }
+        .noselect {
+          -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+             -khtml-user-select: none; /* Konqueror HTML */
+               -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none; /* Non-prefixed version, currently
+                                          supported by Chrome and Opera */
+            color: #999999;
+        }
+        .button
+        {
+            cursor: pointer;
+            font-weight: bold;
+            color: #999999;
+        }
+        .button:hover
+        {
+            color: #ff00ff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="960" height="540"></canvas>
+    <script type="text/javascript" src="slides.js"></script>
+    <p><span class="noselect button" onclick="PrevSlide()">&lt;&lt;</span><span class="noselect"> | </span><span class="noselect button" onclick="GoFullscreen()">GO</span><span class="noselect"> | </span><span class="noselect button" onclick="NextSlide()">&gt;&gt;</span>
+</body>
+</html>
