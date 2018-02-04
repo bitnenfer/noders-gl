@@ -4,60 +4,28 @@
 		"selected_items":
 		[
 			[
-				"prev",
-				"PrevSlide"
+				"laode",
+				"loadedSlides"
 			],
 			[
-				"tran",
-				"transition"
-			],
-			[
-				"uTe",
-				"uTex0"
-			],
-			[
-				"curre",
-				"currentSlide"
-			],
-			[
-				"cur",
-				"currentSlide"
-			],
-			[
-				"loa",
-				"loader"
+				"slide",
+				"slideCount"
 			],
 			[
 				"load",
 				"loadedSlides"
 			],
 			[
-				"trans",
-				"transTextures"
-			],
-			[
-				"tex",
-				"texture"
-			],
-			[
-				"slide",
-				"slideWidth"
-			],
-			[
-				"pro",
-				"program"
-			],
-			[
-				"paus",
-				"paused"
-			],
-			[
-				"time",
-				"timeChanging"
+				"has",
+				"hashData"
 			],
 			[
 				"curren",
 				"currentTime"
+			],
+			[
+				"FLOA",
+				"FLOAT_1"
 			],
 			[
 				"post",
@@ -110,6 +78,10 @@
 			[
 				"nois",
 				"noiseTexture"
+			],
+			[
+				"tex",
+				"textures"
 			],
 			[
 				"sha",
@@ -174,6 +146,10 @@
 			[
 				"inv",
 				"invModel"
+			],
+			[
+				"curre",
+				"currentNormalTexture"
 			],
 			[
 				"cu",
@@ -514,25 +490,41 @@
 			[
 				"sca",
 				"scaleY"
+			],
+			[
+				"scae",
+				"scaleX"
+			],
+			[
+				"ima",
+				"image0"
+			],
+			[
+				"ligh",
+				"lights"
+			],
+			[
+				"lig",
+				"lightLayer"
+			],
+			[
+				"uni",
+				"uniform3f"
+			],
+			[
+				"am",
+				"ambientLightColorR"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "slides/index.html",
+			"file": "slides/data/shaders/default.frag",
 			"settings":
 			{
-				"buffer_size": 1557,
+				"buffer_size": 1316,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "slides/file-loader.js",
-			"settings":
-			{
-				"buffer_size": 2473,
 				"line_ending": "Windows"
 			}
 		},
@@ -540,34 +532,7 @@
 			"file": "slides/slides.js",
 			"settings":
 			{
-				"buffer_size": 7372,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "slides/hash-parser.js",
-			"settings":
-			{
-				"buffer_size": 324,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "slides/data/shaders/default.vert",
-			"settings":
-			{
-				"buffer_size": 201,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "slides/data/shaders/default.frag",
-			"settings":
-			{
-				"buffer_size": 1373,
+				"buffer_size": 8568,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -639,27 +604,28 @@
 	"expanded_folders":
 	[
 		"/C/xampp/htdocs/noders-gl",
-		"/C/xampp/htdocs/noders-gl/slides"
+		"/C/xampp/htdocs/noders-gl/slides",
+		"/C/xampp/htdocs/noders-gl/slides/data",
+		"/C/xampp/htdocs/noders-gl/slides/data/shaders"
 	],
 	"file_history":
 	[
-		"/C/xampp/htdocs/noders-gl/editor/data/shaders/playground.frag",
-		"/C/xampp/htdocs/noders-gl/slides/file-loader.js",
-		"/C/xampp/htdocs/noders-gl/app.js",
-		"/C/xampp/htdocs/noders-gl/data/shaders/playground.vert",
 		"/C/xampp/htdocs/noders-gl/data/shaders/nodemo_post.frag",
-		"/C/xampp/htdocs/noders-gl/data/shaders/playground.frag",
-		"/C/xampp/htdocs/noders-gl/lib/orbital-camera.js",
+		"/C/xampp/htdocs/noders-gl/index.html",
+		"/C/xampp/htdocs/noders-gl/app.js",
 		"/C/xampp/htdocs/noders-gl/data/shaders/nodemo.frag",
+		"/C/xampp/htdocs/noders-gl/lib/monaco-editor/dev/vs/basic-languages/src/cpp.js",
+		"/C/xampp/htdocs/noders-gl/data/shaders/playground.frag",
+		"/C/xampp/htdocs/noders-gl/data/shaders/playground.vert",
 		"/C/xampp/htdocs/noders-gl/data/shaders/nodemo.vert",
 		"/C/xampp/htdocs/noders-gl/data/shaders/diffuse_shader.frag",
 		"/C/xampp/htdocs/noders-gl/data/shaders/mvp_shader.vert",
 		"/C/xampp/htdocs/noders-gl/data/shaders/mvp_shader.frag",
 		"/C/xampp/htdocs/noders-gl/editor.js",
-		"/C/xampp/htdocs/noders-gl/index.html",
 		"/C/xampp/htdocs/noders-gl/lib/noders-gl.js",
 		"/C/xampp/htdocs/noders-gl/lib/file-loader.js",
 		"/C/xampp/htdocs/noders-gl/data/shaders/simple_shader.frag",
+		"/C/xampp/htdocs/noders-gl/lib/orbital-camera.js",
 		"/C/xampp/htdocs/noders-gl/data/shaders/postprocess_shader.frag",
 		"/C/xampp/htdocs/noders-gl/data/shaders/texture_shader.vert",
 		"/C/xampp/htdocs/noders-gl/data/shaders/diffuse_shader.vert",
@@ -672,7 +638,6 @@
 		"/C/xampp/htdocs/noders-gl/lib/objpar.js",
 		"/C/xampp/htdocs/noders-gl/lib/monaco-editor/dev/vs/loader.js",
 		"/C/xampp/htdocs/noders-gl/lib/monaco-editor/dev/vs/editor/editor.main.js",
-		"/C/xampp/htdocs/noders-gl/lib/monaco-editor/dev/vs/basic-languages/src/cpp.js",
 		"/C/xampp/htdocs/slimshader/app.js",
 		"/C/xampp/htdocs/js13kgames/code/shaders/entry.glsl",
 		"/C/xampp/htdocs/noders-gl/demos/sdf.html",
@@ -770,11 +735,13 @@
 		"/C/xampp/htdocs/phaser/v3/src/gameobjects/graphics/GraphicsCanvasRenderer.js",
 		"/C/xampp/htdocs/phaser/v3/src/display/mask/GeometryMask.js",
 		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/GeometryMask Example.js",
-		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/GeometryMask Example0.js"
+		"/C/xampp/htdocs/phaser3-examples/public/src/display/masks/GeometryMask Example0.js",
+		"/C/xampp/htdocs/phaser/v3/src/display/mask/BitmapMask.js",
+		"/C/xampp/htdocs/phaser3-examples/public/src/game objects/effect layer/custom-tint.js"
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -788,9 +755,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"slideCount",
-			"fullsc",
-			"rotation",
+			"fft",
+			"1024",
+			"512",
 			"postprocess",
 			"2",
 			"Controller",
@@ -832,57 +799,66 @@
 	"groups":
 	[
 		{
-			"sheets":
-			[
-			]
-		},
-		{
-			"selected": 5,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "slides/index.html",
+					"file": "slides/data/shaders/default.frag",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1557,
+						"buffer_size": 1316,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								927,
-								927
+								817,
+								817
+							],
+							[
+								874,
+								874
+							],
+							[
+								931,
+								931
+							],
+							[
+								1003,
+								1003
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax"
+							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "slides/file-loader.js",
-					"semi_transient": true,
+					"file": "slides/slides.js",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2473,
+						"buffer_size": 8568,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								3764,
+								3764
 							]
 						],
 						"settings":
@@ -892,119 +868,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 108.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "slides/slides.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7372,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1085,
-								1085
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 387.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "slides/hash-parser.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 324,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								322,
-								322
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "slides/data/shaders/default.vert",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 201,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								26,
-								26
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "slides/data/shaders/default.frag",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1373,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								841,
-								841
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 162.0,
+						"translation.y": 1709.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1015,7 +879,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -1030,18 +894,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.109599817464,
 			1.0
 		],
 		"rows":
@@ -1063,7 +920,7 @@
 	"project": "noders-gl.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1093,7 +950,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
@@ -1101,7 +958,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 418.0,
+	"side_bar_width": 229.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

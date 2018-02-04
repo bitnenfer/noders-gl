@@ -29,16 +29,20 @@ void main()
 
         )
         {
-            float limit = 30.0;
-            float v = sin(limit * pixelPos.x + sin(time) * 0.5) + 
-                        cos(limit * 0.5 * pixelPos.y - time * 2.0) +
-                        sin(limit * (pixelPos.x + pixelPos.y)) +
-                        sin(limit * sqrt((pixelPos.x + 0.5) * (pixelPos.x + 0.5) + (pixelPos.y + 0.5) * (pixelPos.y + 0.5)) + time);
+                float value = 0.0;
+                float freq = 8.0;
 
-            gl_FragColor = vec4(sin(v * 3.14),
-                                cos(v * 3.14 + 2.0 * 3.14 / 3.0),
-                                sin(v * 3.14 + 4.0 * 3.14 / 3.0),
-                                1.0);
+                value = sin(time + pixelPos.x * freq) + 
+                        sin(time + pixelPos.y * freq) + 
+                        sin(time + (pixelPos.x + pixelPos.y) * freq) + 
+                        cos(time + sqrt(length(pixelPos - 0.5)) * freq * 2.0);
+
+                gl_FragColor = vec4(
+                    cos(value),
+                    sin(value), 
+                    sin(value * 3.14 * 2.0), 
+                    1.0
+                );
         }
     }
     else

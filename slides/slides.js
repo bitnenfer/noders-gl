@@ -112,6 +112,43 @@ function SwapDone()
 
 }
 
+function SetSlide(id)
+{
+    id = Math.min(id, slideCount - 1);
+
+    if (id > currentSlide)
+    {
+        if (id < loadedSlides)
+        {
+            swapSlide = true;
+            nextSlide = Math.min(id, slideCount);
+        }
+        else
+        {
+            for (let index = loadedSlides; index < id; ++index)
+            {
+                loader.addImage(index, 'data/textures/Slide' + (index + 1) + '.PNG');
+            }
+            
+            loader.process(function (loader) {
+                for (let index = loadedSlides; index < id; ++index)
+                {
+                    slideTextures.push(LoadTexture(index, gl.LINEAR, gl.CLAMP_TO_EDGE));
+                }
+                loadedSlides += id - loadedSlides;
+                nextSlide = id;
+                swapSlide = true;
+            });
+        }
+    }
+    else
+    {
+        currentSlide = Math.max(id, 0);
+        prevSlide = Math.max(currentSlide - 1, 0);
+        nextSlide = Math.min(currentSlide + 1, slideCount);
+        HandleSlide(currentSlide);
+    }
+}
 
 window.PrevSlide = function ()
 {
@@ -212,6 +249,14 @@ loader.process(function (loader) {
         gl.drawArrays(gl.TRIANGLES, 0, 6);
         requestAnimationFrame(render);
         scroll += 0.01;
+        
+        const hashData = ParseHash(location.hash);
+        
+        if (hashData.slide)
+        {
+            SetSlide(hashData.slide);
+        }
+
     });
 });
 
