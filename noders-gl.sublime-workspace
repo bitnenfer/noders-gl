@@ -529,10 +529,28 @@
 			}
 		},
 		{
+			"file": "editor/data/shaders/nodemo_post.frag",
+			"settings":
+			{
+				"buffer_size": 4585,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "slides/slides.js",
 			"settings":
 			{
 				"buffer_size": 8568,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "slides/index.html",
+			"settings":
+			{
+				"buffer_size": 1783,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -604,6 +622,9 @@
 	"expanded_folders":
 	[
 		"/C/xampp/htdocs/noders-gl",
+		"/C/xampp/htdocs/noders-gl/editor",
+		"/C/xampp/htdocs/noders-gl/editor/data",
+		"/C/xampp/htdocs/noders-gl/editor/data/shaders",
 		"/C/xampp/htdocs/noders-gl/slides",
 		"/C/xampp/htdocs/noders-gl/slides/data",
 		"/C/xampp/htdocs/noders-gl/slides/data/shaders"
@@ -815,20 +836,8 @@
 						"selection":
 						[
 							[
-								817,
-								817
-							],
-							[
-								874,
-								874
-							],
-							[
-								931,
-								931
-							],
-							[
-								1003,
-								1003
+								731,
+								1241
 							]
 						],
 						"settings":
@@ -838,7 +847,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 311.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -846,6 +855,36 @@
 				},
 				{
 					"buffer": 1,
+					"file": "editor/data/shaders/nodemo_post.frag",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4585,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4585,
+								4585
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 436.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "slides/slides.js",
 					"semi_transient": false,
 					"settings":
@@ -871,7 +910,37 @@
 						"translation.y": 1709.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "slides/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1783,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1277,
+								1277
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 157.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]

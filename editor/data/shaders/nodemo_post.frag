@@ -48,6 +48,8 @@ void main()
     float noisePow = 2.0;
     float noiseScale = 2.0;
     vec2 range = vec2(0.497, 0.5) - 0.2;
+    float time = uMediaTime;
+    float bgAlpha = 0.4;
 
     if (uMediaTime < 26.5 || uMediaTime > 123.0) 
     {
@@ -58,6 +60,8 @@ void main()
         noiseScale = 1.0;
         range.x -= cos(sin(uMediaTime) + wave * 20.0) * length(0.5 - uv.x) * 0.05;
         range.y += cos(sin(uMediaTime) + wave * 20.0) * length(0.5 - uv.x) * 0.05;
+        time = 0.0;
+        bgAlpha = 1.0;
     }
     else
     {
@@ -99,12 +103,21 @@ void main()
     }
     else if (length(uv - vec2(0.5)) < 0.23 - min(abs(sin(fft)) * 0.3, 0.1))
     {
-        gl_FragColor += pow(noiseTex.x, noisePow) * vec4(
-           0.5 *uv.y + 0.1 * cos(sin(wave * 10.5)),
-            wave,
-            0.3 * cos(wave * 0.1),
-            1.0
-        ) * 2.0 * pow(1.0 - distance(uv, vec2(0.5)), pw);
+        float value = 0.0;
+        float freq = 10.0;
+
+        value = sin(time + wave + uv.x * freq) + 
+                sin(time + wave + uv.y * freq) + 
+                sin(time + wave + (uv.x + uv.y) * freq) + 
+                cos(time + wave + sqrt(length(uv - 0.5)) * freq * 3.0);
+
+        gl_FragColor += vec4(
+            (0.5 * uv.y + 0.1 * cos(sin(wave * 10.5))) *
+            bgAlpha * sin(value + sin(freq + uv.x + sin(uMediaTime ))),
+            bgAlpha * sin(value + sin(uv.x * 3.14)), 
+            bgAlpha * sin(value + cos(uv.y * 2.0)), 
+            bgAlpha
+        ) * 2.0 * pow(1.0 - distance(uv, vec2(0.5)), pw * 2.0);;
     }
 }
 
