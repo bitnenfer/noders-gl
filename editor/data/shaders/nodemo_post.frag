@@ -3,6 +3,7 @@ precision mediump float;
 uniform sampler2D uRT;
 uniform sampler2D uFFT;
 uniform sampler2D uNoise;
+uniform sampler2D uNoiseTunnel;
 uniform float uTime;
 uniform vec2 uResolution;
 uniform int uPassIndex;
@@ -39,6 +40,13 @@ vec3 getColor(sampler2D texture, vec2 texCoord, mat3 kernel, float sampleSize);
 
 void main()
 {
+    if (uPassIndex == 1)
+    {
+        vec2 uv = gl_FragCoord.xy / uResolution;
+        gl_FragColor = vec4(getColor(uRT, uv, gaussian, 0.5), 1.0);
+        return;
+    }
+
     float sampleSize = sin(texture2D(uFFT, vec2(0.0))).x * 40.0; 
     float fft = sin(texture2D(uFFT, vec2(0.0))).x;
     vec2 uv = gl_FragCoord.xy / uResolution;
@@ -80,7 +88,7 @@ void main()
     {
         if (uv.y > range.x && uv.y < range.y)
         {
-            gl_FragColor = vec4(0.2, 0.0, 1.0, 1.0) * (0.2 - pow(distance(uv, vec2(0.5)), 2.0));
+            gl_FragColor = vec4(1.2, 0.0, 1.0, 1.0) * (0.2 - pow(distance(uv, vec2(0.5)), 2.0));
         }
         gl_FragColor += vec4(getColor(uRT, uv, edges, sampleSize), 1.0);
     }
@@ -103,21 +111,42 @@ void main()
     }
     else if (length(uv - vec2(0.5)) < 0.23 - min(abs(sin(fft)) * 0.3, 0.1))
     {
-        float value = 0.0;
-        float freq = 10.0;
+        if (uMediaTime < 26.5 || uMediaTime > 123.0)
+        {
+            vec2 pixelPos = gl_FragCoord.xy / uResolution;
+            vec4 noise = texture2D(uNoiseTunnel, pixelPos) * 2.0;
+            float time = fft * 30.5;
+            float freq = 20.0;
+            float value = 
+                sin((wave * 8.0 - uMediaTime * 10.0) + sqrt(1.0 / length(pixelPos - 0.5)) * freq);
 
-        value = sin(time + wave + uv.x * freq) + 
-                sin(time + wave + uv.y * freq) + 
-                sin(time + wave + (uv.x + uv.y) * freq) + 
-                cos(time + wave + sqrt(length(uv - 0.5)) * freq * 3.0);
+            gl_FragColor += vec4(
+                0.5 * value * 3.14,
+                0.5 * value * sin(sqrt(length(wave))),
+                0.5 * value * sin(wave * 3.14),
+                1.0
+            );
 
-        gl_FragColor += vec4(
-            (0.5 * uv.y + 0.1 * cos(sin(wave * 10.5))) *
-            bgAlpha * sin(value + sin(freq + uv.x + sin(uMediaTime ))),
-            bgAlpha * sin(value + sin(uv.x * 3.14)), 
-            bgAlpha * sin(value + cos(uv.y * 2.0)), 
-            bgAlpha
-        ) * 2.0 * pow(1.0 - distance(uv, vec2(0.5)), pw * 2.0);;
+            if (length(uv - 0.5) < 0.04) gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        }
+        else
+        {
+            float value = 0.0;
+            float freq = 10.0;
+            wave *= 10.0;
+            value = sin(time + wave + uv.x * freq) + 
+                    sin(time + wave + uv.y * freq) + 
+                    sin(time + wave + (uv.x + uv.y) * freq) + 
+                    cos(time + wave + sqrt(length(uv - 0.5)) * freq * 3.0);
+
+            gl_FragColor += vec4(
+                (0.5 * uv.y + 0.1 * cos(sin(wave * 10.5))) *
+                bgAlpha * sin(value + sin(freq + uv.x + sin(uMediaTime ))),
+                bgAlpha * sin(value + sin(uv.x * 3.14)), 
+                bgAlpha * sin(value + cos(uv.y * 2.0)), 
+                bgAlpha
+            ) * 2.0 * pow(1.0 - distance(uv, vec2(0.5)), pw * 2.0);
+        }
     }
 }
 

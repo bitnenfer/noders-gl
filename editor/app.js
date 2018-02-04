@@ -91,7 +91,8 @@ function startApp(models)
         }
     });
     let postProcessPipeline = null;
-    let noiseTexture = null;
+    let noiseTexture0 = null;
+    let noiseTexture1 = null;
     const modelBuffers = [];
     const textures = [];
     const modelQuat = quat.create();
@@ -226,9 +227,19 @@ function startApp(models)
     lightDir.add(guiData.direction, 'z').step(0.01).onFinishChange(SaveGUI);
 
 
-    shaderFolder.add(guiData.shaders, 'shader', guiData.shaders.names).onFinishChange(function (value) { window.run(); });
-    shaderFolder.add(guiData.shaders, 'postprocessId', guiData.shaders.postprocessNames).onFinishChange(function (value) { window.run(); });
-    shaderFolder.add(guiData.shaders, 'postprocess').onFinishChange(function (value) { 
+    shaderFolder.add(guiData.shaders, 'shader', guiData.shaders.names).onFinishChange(function (value) {
+        value = parseInt(value);
+        if (value === 8)
+        {
+            guiData.shaders.postprocessId = 9;
+            guiData.shaders.passCount = 2;
+            postprocessToggle.setValue(true);
+        }
+
+        window.run(); 
+    });
+    shaderFolder.add(guiData.shaders, 'postprocessId', guiData.shaders.postprocessNames).onFinishChange(function (value) { window.run(); }).listen();
+    var postprocessToggle = shaderFolder.add(guiData.shaders, 'postprocess').onFinishChange(function (value) { 
         if(!value) 
         {
             document.getElementById('post-tab').style.visibility = 'hidden';
@@ -243,8 +254,8 @@ function startApp(models)
         } 
         else document.getElementById('post-tab').style.visibility = 'visible';
         window.run(); 
-    });
-    shaderFolder.add(guiData.shaders, 'passCount').min(1).max(4).step(1);
+    }).listen();
+    shaderFolder.add(guiData.shaders, 'passCount').min(1).max(4).step(1).listen();
 
     modelFolder.add(guiData.model, 'model', guiData.model.list).onFinishChange(function () {localStorage.setItem('guiData', JSON.stringify(guiData));});
     modelFolder.add(window, 'resetTransform');
@@ -283,7 +294,8 @@ function startApp(models)
     fileLoader.addImage('marble', 'data/textures/marble.jpg');
     fileLoader.addImage('rock-diffuse', 'data/textures/rocks_01_dif.jpg');
     fileLoader.addImage('rock-normal', 'data/textures/rocks_01_nm.jpg');
-    fileLoader.addImage('noise', 'data/textures/noise2.jpg');
+    fileLoader.addImage('noise0', 'data/textures/noise2.jpg');
+    fileLoader.addImage('noise1', 'data/textures/tunnel.jpg');
 
     // shaders
     fileLoader.addText('simple_shader.frag', 'data/shaders/simple_shader.frag');
@@ -382,12 +394,18 @@ function startApp(models)
             source: null
         });
 
-        noiseTexture = new NGL.Texture2D({
+        noiseTexture0 = new NGL.Texture2D({
             renderer: renderer,
-            source: fileLoader.getImage('noise')
+            source: fileLoader.getImage('noise0')
         });
 
-        noiseTexture.setWrapping(WebGLRenderingContext.REPEAT);
+        noiseTexture1 = new NGL.Texture2D({
+            renderer: renderer,
+            source: fileLoader.getImage('noise1')
+        });
+
+        noiseTexture0.setWrapping(WebGLRenderingContext.REPEAT);
+        noiseTexture1.setWrapping(WebGLRenderingContext.REPEAT);
 
         guiData.shaders.list[0].vert = guiData.shaders.list[0].vert ? guiData.shaders.list[0].vert : fileLoader.getText('simple_shader.vert');
         guiData.shaders.list[0].frag = guiData.shaders.list[0].frag ? guiData.shaders.list[0].frag : fileLoader.getText('simple_shader.frag');
@@ -528,11 +546,13 @@ function startApp(models)
             pipeline.setUniform('uLightDir', NGL.UniformType.FLOAT_3, guiData.direction.x, guiData.direction.y, guiData.direction.z);
             pipeline.setUniform('uCameraPos', NGL.UniformType.FLOAT_VECTOR_3, viewPos);
             pipeline.setUniform('uNoise', NGL.UniformType.INT_1, 2);
+            pipeline.setUniform('uNoiseTunnel', NGL.UniformType.INT_1, 3);
             pipeline.setUniform('uMediaTime', NGL.UniformType.FLOAT_1, audio.currentTime);
 
             renderer.setTexture2D(textures[guiData.texture.texture], 0);
             renderer.setTexture2D(fftTexture, 1);
-            renderer.setTexture2D(noiseTexture, 2);
+            renderer.setTexture2D(noiseTexture0, 2);
+            renderer.setTexture2D(noiseTexture1, 3);
 
             if (!guiData.shaders.postprocess || (postProcessPipeline !== null && !postProcessPipeline.isValid))
             {
@@ -561,14 +581,15 @@ function startApp(models)
                 postProcessPipeline.setUniform('uSampler', NGL.UniformType.INT_1, 0);
                 postProcessPipeline.setUniform('uFFT', NGL.UniformType.INT_1, 1);
                 postProcessPipeline.setUniform('uNoise', NGL.UniformType.INT_1, 2);
-                postProcessPipeline.setUniform('uRT', NGL.UniformType.INT_1, 3);
+                postProcessPipeline.setUniform('uNoiseTunnel', NGL.UniformType.INT_1, 3);
+                postProcessPipeline.setUniform('uRT', NGL.UniformType.INT_1, 4);
                 postProcessPipeline.setUniform('uPassCount', NGL.UniformType.INT_1, passCount);
                 postProcessPipeline.setUniform('uMediaTime', NGL.UniformType.FLOAT_1, audio.currentTime);
 
                 for (let index = 1; index < passCount; ++index)
                 {
                     postProcessPipeline.setUniform('uPassIndex', NGL.UniformType.INT_1, index - 1);
-                    renderer.setTexture2D(postProcessTargets[passIndex ^ 1].texture, 3);
+                    renderer.setTexture2D(postProcessTargets[passIndex ^ 1].texture, 4);
                     postProcessTargets[passIndex].setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
                     postProcessTargets[passIndex].clear(NGL.ClearTarget.ALL);
                     renderer.beginPass(postVertexBuffer, postProcessPipeline, postProcessTargets[passIndex]);
@@ -578,7 +599,7 @@ function startApp(models)
                 }
                 
                 postProcessPipeline.setUniform('uPassIndex', NGL.UniformType.INT_1, passCount - 1);
-                renderer.setTexture2D(postProcessTargets[passIndex ^ 1].texture, 3);
+                renderer.setTexture2D(postProcessTargets[passIndex ^ 1].texture, 4);
                 renderer.beginPass(postVertexBuffer, postProcessPipeline);
                 renderer.setClearColor(guiData.color[0] / 255.0, guiData.color[1] / 255.0, guiData.color[2] / 255.0, 1.0);
                 renderer.clearTarget(NGL.ClearTarget.ALL);
