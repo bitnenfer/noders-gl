@@ -36,6 +36,7 @@ require(['vs/editor/editor.main'], function() {
         postTab.className = 'tab active';
     };
 
+
     startApp({ monaco: monaco, editor: editor, vert: vertModel, frag: fragModel, post: postModel });
 
 });

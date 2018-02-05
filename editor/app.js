@@ -21,10 +21,22 @@ function startApp(models)
 {
     if (location.hash === '#clear') localStorage.clear();
 
+    let AC = null;
+
+    if (typeof AudioContext !== 'undefined') AC = AudioContext;
+    else if (typeof webkitAudioContext !== 'undefined') AC = webkitAudioContext;
+    else if (typeof mozAudioContext !== 'undefined') AC = mozAudioContext;
+
+    if (AC===null)
+    {
+        alert('AudioContext needed for this demo');
+        return;
+    } 
+
     const msView = document.getElementById('ms-view');
     const msViewAvg = document.getElementById('ms-view-avg');
     const audio = new Audio('data/media/wh.mp3');
-    const audioContext = new AudioContext();
+    const audioContext = new AC();
     const audioSource = audioContext.createMediaElementSource(audio);
     const audioAnalyser = audioContext.createAnalyser();
     const audioGain = audioContext.createGain();
@@ -780,10 +792,10 @@ function startApp(models)
     const fullscreen = {
         fullscreen: function ()
         {
-            console.log('fullscreen!');
             if (renderer.canvas.requestFullscreen) renderer.canvas.requestFullscreen()
             else if (renderer.canvas.webkitRequestFullscreen) renderer.canvas.webkitRequestFullscreen();
             else if (renderer.canvas.mozRequestFullscreen) renderer.canvas.mozRequestFullscreen();
+            else alert('Fullscreen API not enabled on this browser.');
         }
     };
 
