@@ -532,7 +532,7 @@
 			"file": "slides/slides.js",
 			"settings":
 			{
-				"buffer_size": 8568,
+				"buffer_size": 8582,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -802,7 +802,7 @@
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
@@ -872,7 +872,7 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -900,7 +900,7 @@
 						"translation.y": 270.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -909,15 +909,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8568,
+						"buffer_size": 8582,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								101,
-								101
+								2894,
+								2894
 							]
 						],
 						"settings":
@@ -925,10 +925,10 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1296.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1070,7 +1070,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{

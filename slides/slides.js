@@ -13,7 +13,7 @@ let currentSlide = ('slide' in urlData ? Math.min(urlData.slide, slideCount-1) :
 let currentTrans = 0;
 let nextSlide = currentSlide + 1;
 let prevSlide = 0;
-let loadedSlides = Math.min(currentSlide + 2, totalSlideCount);
+let loadedSlides = Math.min(currentSlide + 4, totalSlideCount);
 let time = 0.0;
 let swapSlide = false;
 let scroll = 0.0;
@@ -90,15 +90,15 @@ function SwapDone()
         loader.process(function (loader) {
             slideTextures.push(LoadTexture(loadedSlides, gl.LINEAR, gl.CLAMP_TO_EDGE));
             loadedSlides += 1;
-            currentSlide = nextSlide;
-            prevSlide = Math.max(currentSlide - 1, 0);
-            nextSlide = Math.min(currentSlide + 1, slideCount - 1);
-            swapSlide = false;
-            time = 0;
-            HandleSlide(currentSlide);
+            //currentSlide = nextSlide;
+            //prevSlide = Math.max(currentSlide - 1, 0);
+            //nextSlide = Math.min(currentSlide + 1, slideCount - 1);
+            //swapSlide = false;
+            //time = 0;
+            //HandleSlide(currentSlide);
         });
     }
-    else
+//    else
     {
         setTimeout(function () {
             currentSlide = nextSlide;
