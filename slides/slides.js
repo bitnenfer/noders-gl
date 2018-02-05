@@ -1,7 +1,7 @@
 const urlData = ParseHash(location.hash);
 const loader = new FileLoader();
-const totalSlideCount = 28;
-const slideCount = 27;
+const totalSlideCount = 29;
+const slideCount = 28;
 const canvas = document.getElementById('canvas');
 const gl = canvas.getContext('webgl');
 const slideTextures = [];
@@ -24,7 +24,7 @@ gl.clear(gl.COLOR_BUFFER_BIT);
 
 for (let index = 0; index < loadedSlides; ++index)
 {
-    loader.addImage(index, 'data/textures/Slide' + (index + 1) + '.PNG');
+    loader.addImage(index, 'data/textures/Slide' + (index + 1) + '.JPG');
 }
 
 loader.addImage('t0', 'data/textures/transitions/t0.jpg');
@@ -86,7 +86,7 @@ function SwapDone()
 {
     if (loadedSlides < totalSlideCount)
     {
-        loader.addImage(loadedSlides, 'data/textures/Slide' + (loadedSlides + 1) + '.PNG');
+        loader.addImage(loadedSlides, 'data/textures/Slide' + (loadedSlides + 1) + '.JPG');
         loader.process(function (loader) {
             slideTextures.push(LoadTexture(loadedSlides, gl.LINEAR, gl.CLAMP_TO_EDGE));
             loadedSlides += 1;
@@ -127,7 +127,7 @@ function SetSlide(id)
         {
             for (let index = loadedSlides; index < id; ++index)
             {
-                loader.addImage(index, 'data/textures/Slide' + (index + 1) + '.PNG');
+                loader.addImage(index, 'data/textures/Slide' + (index + 1) + '.JPG');
             }
             
             loader.process(function (loader) {
