@@ -1,7 +1,7 @@
 const urlData = ParseHash(location.hash);
 const loader = new FileLoader();
-const totalSlideCount = 29;
-const slideCount = 28;
+const totalSlideCount = 30;
+const slideCount = 29;
 const canvas = document.getElementById('canvas');
 const gl = canvas.getContext('webgl');
 const slideTextures = [];
